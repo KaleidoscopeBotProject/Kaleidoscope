@@ -1,0 +1,106 @@
+#tag Class
+Protected Class BNLSSocket
+Inherits TCPSocket
+	#tag Event
+		Sub Connected()
+		  
+		  stdout.WriteLine("BNLS: Connected to " + Me.RemoteAddress + "!")
+		  
+		  If Me.client.state = Nil Then
+		    Me.client.state = New BNETState(Me.client)
+		  End If
+		  
+		  Me.Write(Packets.CreateBNLS_REQUESTVERSIONBYTE(Battlenet.productToBNLS(Me.client.state.product)))
+		  
+		End Sub
+	#tag EndEvent
+
+	#tag Event
+		Sub DataAvailable()
+		  
+		  If Me.client.state.bnlsReadBuffer = Nil Then
+		    Me.client.state.bnlsReadBuffer = Me.ReadAll()
+		  Else
+		    Me.client.state.bnlsReadBuffer = Me.client.state.bnlsReadBuffer + Me.ReadAll()
+		  End If
+		  
+		  If Me.client.state.bnlsReadBuffer.LittleEndian <> True Then
+		    Me.client.state.bnlsReadBuffer.LittleEndian = True
+		  End If
+		  
+		  If Me.client.packetParser.State = Me.client.packetParser.NotRunning Then
+		    Me.client.packetParser.Run()
+		  End If
+		  
+		End Sub
+	#tag EndEvent
+
+	#tag Event
+		Sub Error()
+		  
+		  If Me.client.state.versionAndKeyPassed = False Then
+		    stdout.WriteLine("BNLS: Socket error #" + Format(Me.LastErrorCode, "-#") + "!")
+		  Else
+		    stdout.WriteLine("BNLS: Socket error #" + Format(Me.LastErrorCode, "-#") + ", service no longer required.")
+		  End If
+		  
+		End Sub
+	#tag EndEvent
+
+
+	#tag Property, Flags = &h0
+		client As BNETClient
+	#tag EndProperty
+
+
+	#tag ViewBehavior
+		#tag ViewProperty
+			Name="Address"
+			Visible=true
+			Group="Behavior"
+			Type="String"
+			InheritedFrom="TCPSocket"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Index"
+			Visible=true
+			Group="ID"
+			InheritedFrom="TCPSocket"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Left"
+			Visible=true
+			Group="Position"
+			Type="Integer"
+			InheritedFrom="TCPSocket"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Name"
+			Visible=true
+			Group="ID"
+			InheritedFrom="TCPSocket"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Port"
+			Visible=true
+			Group="Behavior"
+			InitialValue="0"
+			Type="Integer"
+			InheritedFrom="TCPSocket"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Super"
+			Visible=true
+			Group="ID"
+			InheritedFrom="TCPSocket"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="Top"
+			Visible=true
+			Group="Position"
+			Type="Integer"
+			InheritedFrom="TCPSocket"
+		#tag EndViewProperty
+	#tag EndViewBehavior
+End Class
+#tag EndClass
