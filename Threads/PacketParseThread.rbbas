@@ -27,7 +27,11 @@ Inherits Thread
 		        Exit While
 		      End If
 		      
-		      Me.client.state.bnlsReadBuffer = MidB(Me.client.state.bnlsReadBuffer, pktLen + 1)
+		      If Me.client.state = Nil Then Return
+		      
+		      If Me.client.state.bnlsReadBuffer <> Nil Then
+		        Me.client.state.bnlsReadBuffer = MidB(Me.client.state.bnlsReadBuffer, pktLen + 1)
+		      End If
 		      
 		    Wend
 		  End If
@@ -55,7 +59,11 @@ Inherits Thread
 		        Exit While
 		      End If
 		      
-		      Me.client.state.bnetReadBuffer = MidB(Me.client.state.bnetReadBuffer, pktLen + 1)
+		      If Me.client.state = Nil Then Return
+		      
+		      If Me.client.state.bnetReadBuffer <> Nil Then
+		        Me.client.state.bnetReadBuffer = MidB(Me.client.state.bnetReadBuffer, pktLen + 1)
+		      End If
 		      
 		    Wend
 		  End If

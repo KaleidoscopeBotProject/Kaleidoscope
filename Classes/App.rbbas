@@ -4,6 +4,8 @@ Inherits ConsoleApplication
 	#tag Event
 		Function Run(args() as String) As Integer
 		  
+		  Me.exitCode = 0
+		  
 		  Me.ParseArgs(args)
 		  Me.ParseConfig()
 		  
@@ -14,12 +16,12 @@ Inherits ConsoleApplication
 		    c.Connect()
 		  Next
 		  
-		  Do
+		  Do Until Me.exitCode <> 0
 		    Me.DoEvents(1)
 		    Me.YieldToNextThread()
 		  Loop
 		  
-		  Return 0
+		  Return Me.exitCode
 		  
 		End Function
 	#tag EndEvent
@@ -44,8 +46,8 @@ Inherits ConsoleApplication
 		    stderr.WriteLine(buf)
 		  End If
 		  
-		  Quit(1)
-		  Return False
+		  Me.exitCode = 1
+		  Return True
 		  
 		End Function
 	#tag EndEvent
@@ -61,7 +63,7 @@ Inherits ConsoleApplication
 		  
 		  If upperbound Mod 2 = 1 Then
 		    stderr.WriteLine("Insufficient number of arguments")
-		    Quit(1)
+		    Me.exitCode = 1
 		    Return
 		  End If
 		  
@@ -81,7 +83,7 @@ Inherits ConsoleApplication
 		      Me.configFile = New FolderItem(val)
 		    Case Else
 		      stderr.WriteLine("Invalid argument: " + key)
-		      Quit(1)
+		      Me.exitCode = 1
 		      Return
 		    End Select
 		    
@@ -101,21 +103,25 @@ Inherits ConsoleApplication
 		    Raise New ConfigParseException("Null file handle to config file")
 		  End If
 		  
+		  If Me.configFile.Exists = False Then
+		    Raise New ConfigParseException("Config file does not exist: " + Me.configFile.AbsolutePath)
+		  End If
+		  
 		  If Me.configFile.IsReadable = False Then
 		    Raise New ConfigParseException("Access denied while accessing config")
 		  End If
 		  
 		  Dim stream As TextInputStream
-		  Dim lineId, cursor As Integer
-		  Dim inGroup As Boolean
-		  Dim line, lineStr, group, key, val As String
+		  Dim lineId, cursor, depth As Integer
+		  Dim line, lineStr, groups(), group, key, val As String
 		  Dim client As BNETClient
 		  
 		  Try
 		    
 		    stream = TextInputStream.Open(Me.configFile)
 		    lineId = 0
-		    inGroup = False
+		    depth = 0
+		    ReDim groups(-1)
 		    
 		    While Not stream.EOF()
 		      
@@ -128,16 +134,16 @@ Inherits ConsoleApplication
 		      
 		      If Right(line, 1) = "{" Then
 		        
-		        If inGroup = True Then
-		          Raise New ConfigParseException("Subgroups not supported" + lineStr)
-		        End If
-		        
-		        group = Trim(Left(line, Len(line) - 1))
-		        inGroup = True
+		        groups.Append(Trim(Left(line, Len(line) - 1)))
+		        group = groups(UBound(groups))
+		        depth = depth + 1
 		        
 		        Select Case group
 		        Case ""
 		        Case "client"
+		          If depth > 1 Then
+		            Raise New ConfigParseException("Group '" + group + "' cannot be a subgroup" + lineStr)
+		          End If
 		          client = New BNETClient()
 		        Case Else
 		          Raise New ConfigParseException("Undefined group '" + group + "'" + lineStr)
@@ -157,8 +163,13 @@ Inherits ConsoleApplication
 		          Raise New ConfigParseException("Undefined group '" + group + "'" + lineStr)
 		        End Select
 		        
-		        inGroup = False
-		        group = ""
+		        Call groups.Pop()
+		        depth = depth - 1
+		        If UBound(groups) >= 0 Then
+		          group = groups(UBound(groups))
+		        Else
+		          group = ""
+		        End If
 		        Continue While
 		        
 		      End If
@@ -170,7 +181,7 @@ Inherits ConsoleApplication
 		      If cursor > 0 Then val = Left(val, cursor - 1)
 		      val = RTrim(val)
 		      
-		      If inGroup = False Then
+		      If depth = 0 Then
 		        Raise New ConfigParseException("Global scope directives are not supported" + lineStr)
 		      End If
 		      
@@ -278,11 +289,25 @@ Inherits ConsoleApplication
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
+		exitCode As Integer
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
 		logPackets As Boolean
 	#tag EndProperty
 
 
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="exitCode"
+			Group="Behavior"
+			Type="Integer"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="logPackets"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
 #tag EndClass
