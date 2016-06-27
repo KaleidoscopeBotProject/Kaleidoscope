@@ -6,14 +6,14 @@ Inherits Thread
 		  
 		  Dim msg As ChatMessage
 		  
-		  Do
+		  Do Until UBound(Me.messages) < 0
 		    msg = Me.messages.Pop()
 		    Select Case msg.eventId
 		      
 		      // TODO: Implement chat event handling.
 		      
 		    End Select
-		  Loop Until UBound(Me.messages) < 0
+		  Loop
 		  
 		End Sub
 	#tag EndEvent
