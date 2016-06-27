@@ -41,7 +41,7 @@ Inherits TCPSocket
 		  If Me.client.state.versionAndKeyPassed = False Then
 		    stdout.WriteLine("BNLS: Socket error #" + Format(Me.LastErrorCode, "-#") + "!")
 		  Else
-		    stdout.WriteLine("BNLS: Socket error #" + Format(Me.LastErrorCode, "-#") + ", service no longer required.")
+		    stderr.WriteLine("BNLS: Socket error #" + Format(Me.LastErrorCode, "-#") + ", service no longer required.")
 		  End If
 		  
 		End Sub

@@ -128,7 +128,7 @@ Protected Module Battlenet
 		    
 		  Case Else
 		    
-		    Raise New InvalidPacketException()
+		    Raise New BattlenetException("Undefined logon type '" + Format(client.state.logonType, "-#") + "'")
 		    
 		  End Select
 		  
@@ -278,7 +278,7 @@ Protected Module Battlenet
 	#tag Method, Flags = &h1
 		Protected Function strToPlatform(value As String) As UInt32
 		  
-		  Select Case value
+		  Select Case ReplaceAll(value, " ", "")
 		  Case "IX86", "68XI", "windows", "win32", "win64", "win", "linux", "unix"
 		    Return Battlenet.Platform_IX86
 		  Case "PMAC", "CAMP", "powerpc", "classicmac", "macclassic"
@@ -286,7 +286,7 @@ Protected Module Battlenet
 		  Case "XMAC", "CAMX", "macintosh", "mac", "osx", "macosx", "macos"
 		    Return Battlenet.Platform_XMAC
 		  Case Else
-		    Raise New UnsupportedFormatException()
+		    Raise New BattlenetException("Unable to translate value '" + value + "' to platform id")
 		  End Select
 		  
 		End Function
@@ -295,35 +295,35 @@ Protected Module Battlenet
 	#tag Method, Flags = &h1
 		Protected Function strToProduct(value As String) As UInt32
 		  
-		  Select Case value
-		  Case "CHAT", "Telnet"
+		  Select Case ReplaceAll(value, " ", "")
+		  Case "CHAT", "TAHC", "Telnet", "Plaintext", "Text"
 		    Return Battlenet.Product_CHAT
-		  Case "D2DV", "D2"
+		  Case "D2DV", "VD2D", "D2", "Diablo2", "DiabloII"
 		    Return Battlenet.Product_D2DV
-		  Case "D2XP", "LOD"
+		  Case "D2XP", "PX2D", "LOD", "LordOfDestruction", "Diablo2LOD", "DiabloIILOD", "D2EXP"
 		    Return Battlenet.Product_D2XP
-		  Case "DRTL", "D1"
+		  Case "DRTL", "LTRD", "D1", "Diablo", "Diablo1", "DiabloI"
 		    Return Battlenet.Product_DRTL
-		  Case "DSHR", "DS"
+		  Case "DSHR", "RHSD", "DS", "DiabloShareware", "Diablo1Shareware", "DiabloIShareware", "DSHW", "DSW"
 		    Return Battlenet.Product_DSHR
-		  Case "JSTR", "SCJ"
+		  Case "JSTR", "RTSJ", "SCJ", "StarcraftJapan", "StarcraftJapanese", "SCJapan", "SCJapanese"
 		    Return Battlenet.Product_JSTR
-		  Case "SEXP", "BW"
+		  Case "SEXP", "PXES", "BW", "StarcraftBroodwar", "SCBroodwar", "SCBW", "SCEXP"
 		    Return Battlenet.Product_SEXP
-		  Case "SSHR", "SS"
+		  Case "SSHR", "RHSS", "SS", "StarcraftShareware", "SCShareware", "SCSW", "SCSH"
 		    Return Battlenet.Product_SSHR
-		  Case "STAR", "SC"
+		  Case "STAR", "RATS", "SC", "Starcraft", "StarcraftOriginal", "StarcraftOrig"
 		    Return Battlenet.Product_STAR
-		  Case "W2BN", "W2"
+		  Case "W2BN", "NB2W", "W2", "WarcraftII", "Warcraft2", "WarcraftIIBNE", "Warcraft2BNE", "WC2"
 		    Return Battlenet.Product_W2BN
-		  Case "W3DM", "W3D"
+		  Case "W3DM", "MD3W", "W3D", "WarcraftIIIDemo", "Warcraft3Demo", "WC3Demo"
 		    Return Battlenet.Product_W3DM
-		  Case "W3XP", "TFT"
+		  Case "W3XP", "PX3W", "TFT", "WarcraftIIITFT", "Warcraft3TFT", "W3EXP", "WC3EXP", "WC3TFT", "W3TFT"
 		    Return Battlenet.Product_W3XP
-		  Case "WAR3", "W3"
+		  Case "WAR3", "3RAW", "W3", "WarcraftIII", "WarcraftIIIROC", "WC3"
 		    Return Battlenet.Product_WAR3
 		  Case Else
-		    Raise New UnsupportedFormatException()
+		    Raise New BattlenetException("Unable to translate value '" + value + "' to product id")
 		  End Select
 		  
 		End Function
