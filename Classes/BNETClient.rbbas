@@ -30,12 +30,14 @@ Protected Class BNETClient
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  
+		  Me.chatParser   = New ChatParseThread()
 		  Me.config       = New Configuration()
 		  Me.packetParser = New PacketParseThread()
 		  Me.socBNET      = New BNETSocket()
 		  Me.socBNLS      = New BNLSSocket()
 		  Me.state        = Nil
 		  
+		  Me.chatParser.client   = Me
 		  Me.packetParser.client = Me
 		  
 		  Me.socBNET.client = Me
@@ -46,6 +48,9 @@ Protected Class BNETClient
 
 	#tag Method, Flags = &h0
 		Sub Destructor()
+		  
+		  Me.chatParser.Kill()
+		  Me.chatParser = Nil
 		  
 		  Me.config = Nil
 		  
@@ -63,6 +68,10 @@ Protected Class BNETClient
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h0
+		chatParser As ChatParseThread
+	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		config As Configuration

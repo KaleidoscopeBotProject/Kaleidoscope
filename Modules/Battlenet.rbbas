@@ -16,6 +16,52 @@ Protected Module Battlenet
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub getDefaultChannel(product As UInt32, ByRef flags As Uint32, ByRef channel As String)
+		  
+		  Const FLAG_NOCREATE = &H00
+		  Const FLAG_FIRST    = &H01
+		  Const FLAG_FORCE    = &H02
+		  Const FLAG_DIABLO2  = &H04
+		  
+		  flags = FLAG_FIRST
+		  
+		  If Battlenet.isDiablo2(product) Then
+		    flags = BitOr(flags, FLAG_DIABLO2)
+		  End If
+		  
+		  Select Case product
+		  Case Battlenet.Product_STAR
+		    channel = "StarCraft"
+		  Case Battlenet.Product_SEXP
+		    channel = "Brood War"
+		  Case Battlenet.Product_W2BN
+		    channel = "WarCraft II"
+		  Case Battlenet.Product_D2DV
+		    channel = "Diablo II"
+		  Case Battlenet.Product_D2XP
+		    channel = "Lord of Destruction"
+		  Case Battlenet.Product_JSTR
+		    channel = "StarCraft"
+		  Case Battlenet.Product_WAR3
+		    channel = "WarCraft III"
+		  Case Battlenet.Product_W3XP
+		    channel = "Frozen Throne"
+		  Case Battlenet.Product_DRTL
+		    channel = "Diablo"
+		  Case Battlenet.Product_DSHR
+		    channel = "Diablo"
+		  Case Battlenet.Product_SSHR
+		    channel = "StarCraft"
+		  Case Battlenet.Product_W3DM
+		    channel = "WarCraft III"
+		  Case Else
+		    Raise New BattlenetException("Unable to translate value '" + Format(product, "-#") + "' to default channel")
+		  End Select
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function getKeyData(strKey As String, clientToken As UInt32, serverToken As UInt32) As String
 		  
 		  // For use with 0x51 SID_AUTH_CHECK
@@ -217,7 +263,7 @@ Protected Module Battlenet
 		  Case 12
 		    Return Battlenet.Product_W3DM
 		  Case Else
-		    Raise New OutOfBoundsException()
+		    Raise New BattlenetException("Unable to translate value '" + Format(value, "-#") + "' to BNET product id")
 		  End Select
 		  
 		End Function
@@ -252,7 +298,7 @@ Protected Module Battlenet
 		  Case Battlenet.Product_W3DM
 		    Return 12
 		  Case Else
-		    Raise New OutOfBoundsException()
+		    Raise New BattlenetException("Unable to translate value '" + Format(value, "-#") + "' to BNLS product id")
 		  End Select
 		  
 		End Function
@@ -271,6 +317,29 @@ Protected Module Battlenet
 		    Return False
 		  End Select
 		  Return True
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function strToGameKey(value As String) As String
+		  
+		  // Filter 'value' through A-Za-z0-9 pattern forming 'key'.
+		  // This removes spaces, dashes, and other anomalies.
+		  
+		  Dim key As String = ""
+		  Dim i As Integer
+		  Dim j As Integer = Len(value)
+		  Dim k As Integer
+		  
+		  For i = 1 To j
+		    k = Asc(Mid(value, i, 1))
+		    If (k >= &H41 And k <= &H5A) Or (k >= &H61 And k <= &H7A) Or (k >= &H30 And k <= &H39) Then
+		      key = key + Chr(k)
+		    End If
+		  Next
+		  
+		  Return Uppercase(key) // The final 'key' should be uppercase.
 		  
 		End Function
 	#tag EndMethod
@@ -329,6 +398,51 @@ Protected Module Battlenet
 		End Function
 	#tag EndMethod
 
+
+	#tag Constant, Name = EID_BROADCAST, Type = Double, Dynamic = False, Default = \"&H06", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_CHANNEL, Type = Double, Dynamic = False, Default = \"&H07", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_CHANNEL_EMPTY, Type = Double, Dynamic = False, Default = \"&H0E", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_CHANNEL_FULL, Type = Double, Dynamic = False, Default = \"&H0D", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_CHANNEL_RESTRICTED, Type = Double, Dynamic = False, Default = \"&H0F", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_EMOTE, Type = Double, Dynamic = False, Default = \"&H17", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_ERROR, Type = Double, Dynamic = False, Default = \"&H13", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_INFO, Type = Double, Dynamic = False, Default = \"&H12", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_TALK, Type = Double, Dynamic = False, Default = \"&H05", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_USERJOIN, Type = Double, Dynamic = False, Default = \"&H02", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_USERLEAVE, Type = Double, Dynamic = False, Default = \"&H03", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_USERSHOW, Type = Double, Dynamic = False, Default = \"&H01", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_USERUPDATE, Type = Double, Dynamic = False, Default = \"&H09", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_WHISPER, Type = Double, Dynamic = False, Default = \"&H04", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_WHISPERSENT, Type = Double, Dynamic = False, Default = \"&H0A", Scope = Protected
+	#tag EndConstant
 
 	#tag Constant, Name = libBNCSUtil, Type = String, Dynamic = False, Default = \"", Scope = Protected
 		#Tag Instance, Platform = Linux, Language = Default, Definition  = \"/usr/lib/libbncsutil.so"

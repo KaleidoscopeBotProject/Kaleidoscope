@@ -67,6 +67,18 @@ Protected Module Packets
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function CreateBNET_SID_CHATCOMMAND(text As String) As String
+		  
+		  Dim o As New MemoryBlock(1 + LenB(text))
+		  
+		  o.CString(0) = text
+		  
+		  Return Packets.CreateBNET(Packets.SID_CHATCOMMAND, o)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function CreateBNET_SID_ENTERCHAT(username As String, statstring As String) As String
 		  
 		  Dim o As New MemoryBlock(2 + LenB(username) + LenB(statstring))
@@ -213,6 +225,9 @@ Protected Module Packets
 		    Case Packets.SID_GETCHANNELLIST
 		      Packets.ReceiveBNET_SID_GETCHANNELLIST(client, MidB(packetObject, 5))
 		      
+		    Case Packets.SID_CHATEVENT
+		      Packets.ReceiveBNET_SID_CHATEVENT(client, MidB(packetObject, 5))
+		      
 		    Case Packets.SID_PING
 		      Packets.ReceiveBNET_SID_PING(client, MidB(packetObject, 5))
 		      
@@ -346,6 +361,29 @@ Protected Module Packets
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub ReceiveBNET_SID_CHATEVENT(client As BNETClient, packetObject As MemoryBlock)
+		  
+		  Dim msg As New ChatMessage()
+		  
+		  msg.eventId               = packetObject.UInt32Value(0)
+		  msg.flags                 = packetObject.UInt32Value(4)
+		  msg.ping                  = packetObject.Int32Value(8)
+		  msg.ipAddress             = packetObject.UInt32Value(12)
+		  msg.accountNumber         = packetObject.UInt32Value(16)
+		  msg.registrationAuthority = packetObject.UInt32Value(20)
+		  msg.username              = packetObject.CString(24)
+		  msg.text                  = packetObject.CString(25 + LenB(msg.username))
+		  
+		  client.chatParser.messages.Insert(0, msg)
+		  
+		  If client.chatParser.State = client.chatParser.NotRunning Then
+		    client.chatParser.Run()
+		  End If
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Sub ReceiveBNET_SID_ENTERCHAT(client As BNETClient, packetObject As MemoryBlock)
 		  
 		  client.state.uniqueName  = packetObject.CString(0)
@@ -414,10 +452,13 @@ Protected Module Packets
 		  
 		  stderr.WriteLine("BNET: Account login success.")
 		  
+		  Dim flags As UInt32, channel As String
+		  Battlenet.getDefaultChannel(client.state.product, flags, channel)
+		  
 		  client.socBNET.Write(_
 		  Packets.CreateBNET_SID_ENTERCHAT(client.state.username, "") + _
 		  Packets.CreateBNET_SID_GETCHANNELLIST(client.state.product) + _
-		  Packets.CreateBNET_SID_JOINCHANNEL(&H00, "The Void")_
+		  Packets.CreateBNET_SID_JOINCHANNEL(flags, channel)_
 		  )
 		  
 		End Sub
@@ -591,6 +632,12 @@ Protected Module Packets
 	#tag EndConstant
 
 	#tag Constant, Name = SID_AUTH_INFO, Type = Double, Dynamic = False, Default = \"&H50", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_CHATCOMMAND, Type = Double, Dynamic = False, Default = \"&H0E", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_CHATEVENT, Type = Double, Dynamic = False, Default = \"&H0F", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = SID_CLIENTID, Type = Double, Dynamic = False, Default = \"&H05", Scope = Protected

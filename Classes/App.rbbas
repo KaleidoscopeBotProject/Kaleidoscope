@@ -40,7 +40,9 @@ Inherits ConsoleApplication
 		    buf = buf + error.Message
 		  End If
 		  
-		  stderr.WriteLine(buf)
+		  If Len(buf) > 0 Then
+		    stderr.WriteLine(buf)
+		  End If
 		  
 		  Quit(1)
 		  Return False
@@ -199,9 +201,9 @@ Inherits ConsoleApplication
 		        Case "bnlsPort"
 		          client.config.bnlsPort = Val(val)
 		        Case "gameKey1"
-		          client.config.gameKey1 = val
+		          client.config.gameKey1 = Battlenet.strToGameKey(val)
 		        Case "gameKey2"
-		          client.config.gameKey2 = val
+		          client.config.gameKey2 = Battlenet.strToGameKey(val)
 		        Case "gameKeyOwner"
 		          client.config.gameKeyOwner = val
 		        Case "password"
