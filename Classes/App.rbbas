@@ -58,7 +58,7 @@ Inherits ConsoleApplication
 		  Dim upperbound As Integer = UBound(args)
 		  
 		  If upperbound Mod 2 = 1 Then
-		    stderr.WriteLine("Invalid number of arguments")
+		    stderr.WriteLine("Insufficient number of arguments")
 		    Quit(1)
 		    Return
 		  End If
@@ -77,8 +77,6 @@ Inherits ConsoleApplication
 		    Select Case key
 		    Case "/config", "/c", "-config", "-c", "--config"
 		      Me.configFile = New FolderItem(val)
-		    Case "/log-packets", "-log-packets", "--log-packets"
-		      Me.logPackets = Battlenet.strToBool(val)
 		    Case Else
 		      stderr.WriteLine("Invalid argument: " + key)
 		      Quit(1)
