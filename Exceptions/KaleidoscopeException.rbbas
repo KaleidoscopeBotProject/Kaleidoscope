@@ -2,13 +2,19 @@
 Protected Class KaleidoscopeException
 Inherits RuntimeException
 	#tag Method, Flags = &h1000
-		Sub Constructor(error As String = "", errno As Integer = 0)
+		Sub Constructor(error As String = "", errno As Integer = 0, previous As RuntimeException = Nil)
 		  
-		  Me.ErrorNumber = errno
-		  Me.Message     = error
+		  Me.ErrorNumber       = errno
+		  Me.Message           = error
+		  Me.previousException = previous
 		  
 		End Sub
 	#tag EndMethod
+
+
+	#tag Property, Flags = &h0
+		previousException As RuntimeException
+	#tag EndProperty
 
 
 	#tag ViewBehavior

@@ -96,17 +96,17 @@ Inherits ConsoleApplication
 		  End If
 		  
 		  If Me.configFile = Nil Then
-		    Raise New ConfigParseException("Null file handle to config file.")
+		    Raise New ConfigParseException("Null file handle to config file")
 		  End If
 		  
 		  If Me.configFile.IsReadable = False Then
-		    Raise New ConfigParseException("Access denied while accessing config.")
+		    Raise New ConfigParseException("Access denied while accessing config")
 		  End If
 		  
 		  Dim stream As TextInputStream
 		  Dim lineId, cursor As Integer
 		  Dim inGroup As Boolean
-		  Dim line, group, key, val As String
+		  Dim line, lineStr, group, key, val As String
 		  Dim client As BNETClient
 		  
 		  Try
@@ -119,6 +119,7 @@ Inherits ConsoleApplication
 		      
 		      line = Trim(stream.ReadLine(Encodings.UTF8))
 		      lineId = lineId + 1
+		      lineStr = " at line " + Format(lineId, "-#")
 		      
 		      If Len(line) = 0 Then Continue While
 		      If Left(line, 1) = "#" Then Continue While
@@ -126,7 +127,7 @@ Inherits ConsoleApplication
 		      If Right(line, 1) = "{" Then
 		        
 		        If inGroup = True Then
-		          Raise New ConfigParseException("Subgroups not supported at line " + Format(lineId, "-#"))
+		          Raise New ConfigParseException("Subgroups not supported" + lineStr)
 		        End If
 		        
 		        group = Trim(Left(line, Len(line) - 1))
@@ -137,7 +138,7 @@ Inherits ConsoleApplication
 		        Case "client"
 		          client = New BNETClient()
 		        Case Else
-		          Raise New ConfigParseException("Undefined group '" + group + "' at line " + Format(lineId, "-#"))
+		          Raise New ConfigParseException("Undefined group '" + group + "'" + lineStr)
 		        End Select
 		        
 		        Continue While
@@ -151,7 +152,7 @@ Inherits ConsoleApplication
 		        Case "client"
 		          Me.clients.Append(client)
 		        Case Else
-		          Raise New ConfigParseException("Undefined group '" + group + "' at line " + Format(lineId, "-#"))
+		          Raise New ConfigParseException("Undefined group '" + group + "'" + lineStr)
 		        End Select
 		        
 		        inGroup = False
@@ -168,7 +169,7 @@ Inherits ConsoleApplication
 		      val = RTrim(val)
 		      
 		      If inGroup = False Then
-		        Raise New ConfigParseException("Global scope directives are not supported at line " + Format(lineId, "-#"))
+		        Raise New ConfigParseException("Global scope directives are not supported" + lineStr)
 		      End If
 		      
 		      Select Case group
@@ -179,13 +180,13 @@ Inherits ConsoleApplication
 		          Me.logPackets = Battlenet.strToBool(val)
 		          If Me.logPackets Then stderr.WriteLine("Packet logging enabled!")
 		        Case Else
-		          Raise New ConfigParseException("Undefined directive '" + key + "' in global scope at line " + Format(lineId, "-#"))
+		          Raise New ConfigParseException("Undefined directive '" + key + "' in global scope" + lineStr)
 		        End Select
 		        
 		      Case "client"
 		        
 		        If client = Nil Then
-		          Raise New ConfigParseException("Group '" + group + "' being used with null client object")
+		          Raise New ConfigParseException("Group '" + group + "' being used with null client object" + lineStr)
 		        End If
 		        
 		        Select Case key
@@ -212,16 +213,20 @@ Inherits ConsoleApplication
 		        Case "username"
 		          client.config.username = val
 		        Case Else
-		          Raise New ConfigParseException("Undefined directive '" + key + "' in group '" + group + "' at line " + Format(lineId, "-#"))
+		          Raise New ConfigParseException("Undefined directive '" + key + "' in group '" + group + "'" + lineStr)
 		        End Select
 		        
 		      Case Else
 		        
-		        Raise New ConfigParseException("Undefined directive '" + key + "' in group '" + group + "' at line " + Format(lineId, "-#"))
+		        Raise New ConfigParseException("Undefined directive '" + key + "' in group '" + group + "'" + lineStr)
 		        
 		      End Select
 		      
 		    Wend
+		    
+		  Catch err As BattlenetException
+		    
+		    Raise New ConfigParseException(err.Message + lineStr, err)
 		    
 		  Finally
 		    

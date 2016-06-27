@@ -2,13 +2,15 @@
 Protected Class ConfigParseException
 Inherits KaleidoscopeException
 	#tag Method, Flags = &h1000
-		Sub Constructor(message As String)
+		Sub Constructor(message As String, previous As RuntimeException = Nil)
 		  
 		  If Len(message) = 0 Then
 		    Super.Constructor("Unable to parse config", 0)
 		  Else
 		    Super.Constructor(message, 0)
 		  End If
+		  
+		  Me.previousException = previous
 		  
 		End Sub
 	#tag EndMethod
