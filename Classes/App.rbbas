@@ -8,6 +8,7 @@ Inherits ConsoleApplication
 		  
 		  Me.ParseArgs(args)
 		  Me.ParseConfig()
+		  BotCommand.registerAll()
 		  
 		  stdout.WriteLine(Me.ProjectName() + "-" + Me.VersionString())
 		  stdout.WriteLine("")
@@ -114,7 +115,7 @@ Inherits ConsoleApplication
 		  Dim stream As TextInputStream
 		  Dim lineId, cursor, depth As Integer
 		  Dim line, lineStr, groups(), group, key, val As String
-		  Dim client As BNETClient
+		  Dim client As BNETClient, access As UserAccess
 		  
 		  Try
 		    
@@ -140,6 +141,14 @@ Inherits ConsoleApplication
 		        
 		        Select Case group
 		        Case ""
+		          If depth > 1 Then
+		            Raise New ConfigParseException("Global scope group being used inside of scoped group" + lineStr)
+		          End If
+		        Case "access"
+		          If depth < 2 Or groups(depth - 2) <> "client" Or client = Nil Then
+		            Raise New ConfigParseException("Group '" + group + "' being used outside of 'client' group" + lineStr)
+		          End If
+		          access = New UserAccess()
 		        Case "client"
 		          If depth > 1 Then
 		            Raise New ConfigParseException("Group '" + group + "' cannot be a subgroup" + lineStr)
@@ -157,6 +166,8 @@ Inherits ConsoleApplication
 		        
 		        Select Case group
 		        Case ""
+		        Case "access"
+		          client.acl.Append(access)
 		        Case "client"
 		          Me.clients.Append(client)
 		        Case Else
@@ -194,6 +205,23 @@ Inherits ConsoleApplication
 		          If Me.logPackets Then stderr.WriteLine("Packet logging enabled!")
 		        Case Else
 		          Raise New ConfigParseException("Undefined directive '" + key + "' in global scope" + lineStr)
+		        End Select
+		        
+		      Case "access"
+		        
+		        If client = Nil Then
+		          Raise New ConfigParseException("Group '" + group + "' being used outside of 'client' group" + lineStr)
+		        End If
+		        
+		        Select Case key
+		        Case "accountName"
+		          access.accountName = val
+		        Case "aclAdmin"
+		          access.aclAdmin = Battlenet.strToBool(val)
+		        Case "ignoreRealm"
+		          access.ignoreRealm = Battlenet.strToBool(val)
+		        Case Else
+		          Raise New ConfigParseException("Undefined directive '" + key + "' in group '" + group + "'" + lineStr)
 		        End Select
 		        
 		      Case "client"
@@ -250,16 +278,16 @@ Inherits ConsoleApplication
 		End Sub
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Function ProjectName() As String
+	#tag Method, Flags = &h0
+		Function ProjectName() As String
 		  
 		  Return "Kaleidoscope"
 		  
 		End Function
 	#tag EndMethod
 
-	#tag Method, Flags = &h1
-		Protected Function VersionString() As String
+	#tag Method, Flags = &h0
+		Function VersionString() As String
 		  
 		  Dim verstr As String
 		  

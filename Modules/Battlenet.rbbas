@@ -216,6 +216,49 @@ Protected Module Battlenet
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function onlineNameToAccountName(onlineName As String, ourProduct As UInt32, ignoreRealm As Boolean) As String
+		  
+		  Dim accountName As String = onlineName
+		  
+		  If Battlenet.isDiablo2(ourProduct) Then
+		    accountName = Mid(accountName, InStr(accountName, "*") + 1)
+		  End If
+		  
+		  If ignoreRealm = False Then
+		    
+		    Dim realms() As String
+		    Dim cursor As Integer
+		    
+		    If Battlenet.isWarcraft3(ourProduct) Then
+		      realms.Append("@USWest")
+		      realms.Append("@USEast")
+		      realms.Append("@Asia")
+		      realms.Append("@Europe")
+		    Else
+		      realms.Append("@Lordaeron")
+		      realms.Append("@Azeroth")
+		      realms.Append("@Kalimdor")
+		      realms.Append("@Northrend")
+		    End If
+		    
+		    Do Until UBound(realms) < 0
+		      
+		      cursor = InStr(accountName, realms.Pop())
+		      If cursor > 0 Then
+		        accountName = Left(accountName, cursor - 1)
+		        Exit Do
+		      End If
+		      
+		    Loop
+		    
+		  End If
+		  
+		  Return accountName
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function passwordDataOLS(password As String, clientToken As UInt32, serverToken As UInt32) As String
 		  
 		  Soft Declare Sub doubleHashPassword Lib Battlenet.libBNCSUtil (_

@@ -68,6 +68,26 @@ Protected Class BNETClient
 		End Sub
 	#tag EndMethod
 
+	#tag Method, Flags = &h0
+		Function getAcl(onlineName As String) As UserAccess
+		  
+		  Dim accountNameNoRealm As String = Battlenet.onlineNameToAccountName(onlineName, Me.state.product, False)
+		  Dim accountNameRealm   As String = Battlenet.onlineNameToAccountName(onlineName, Me.state.product, True)
+		  
+		  For Each acl As UserAccess In Me.acl
+		    If acl.ignoreRealm = True  And acl.accountName = accountNameNoRealm Then Return acl
+		    If acl.ignoreRealm = False And acl.accountName = accountNameRealm   Then Return acl
+		  Next
+		  
+		  Return Nil
+		  
+		End Function
+	#tag EndMethod
+
+
+	#tag Property, Flags = &h0
+		acl() As UserAccess
+	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		chatParser As ChatParseThread
