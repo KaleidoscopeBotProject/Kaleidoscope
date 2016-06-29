@@ -6,6 +6,8 @@ Protected Class BNETState
 		  Me.accountName           = ""
 		  Me.bnetReadBuffer        = Nil
 		  Me.bnlsReadBuffer        = Nil
+		  Me.channel               = ""
+		  Me.channelUsers          = New Dictionary()
 		  Me.client                = client
 		  Me.clientToken           = Battlenet.getClientToken()
 		  Me.gameKey1              = client.config.gameKey1
@@ -50,6 +52,8 @@ Protected Class BNETState
 		  Me.bnetReadBuffer = Nil
 		  Me.bnlsReadBuffer = Nil
 		  
+		  Me.channelUsers = Nil
+		  
 		  Me.nullTimer.Enabled = False
 		  Me.nullTimer = Nil
 		  
@@ -70,7 +74,15 @@ Protected Class BNETState
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
+		channel As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
 		channelList() As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		channelUsers As Dictionary
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -180,6 +192,26 @@ Protected Class BNETState
 
 	#tag ViewBehavior
 		#tag ViewProperty
+			Name="accountName"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="gameKey1"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="gameKey2"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="gameKeyOwner"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Index"
 			Visible=true
 			Group="ID"
@@ -200,6 +232,21 @@ Protected Class BNETState
 			InheritedFrom="Object"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="password"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="serverSignature"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="statstring"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Super"
 			Visible=true
 			Group="ID"
@@ -211,6 +258,36 @@ Protected Class BNETState
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="uniqueName"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="username"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="versionAndKeyPassed"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="versionCheckFileName"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="versionCheckSignature"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="versionSignature"
+			Group="Behavior"
+			Type="String"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

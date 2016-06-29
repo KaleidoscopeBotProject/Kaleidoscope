@@ -1,14 +1,14 @@
 #tag Class
-Protected Class OSCommand
+Protected Class SayCommand
 Inherits BotCommand
 	#tag Event
 		Function Action(client As BNETClient, message As ChatMessage, suggestedResponseType As Integer, args As String) As ChatResponse
 		  
 		  #pragma Unused client
 		  #pragma Unused message
-		  #pragma Unused args
+		  #pragma Unused suggestedResponseType
 		  
-		  Return New ChatResponse(suggestedResponseType, App.PlatformName())
+		  Return New ChatResponse(ChatResponse.TYPE_TALK, args)
 		  
 		End Function
 	#tag EndEvent
@@ -16,7 +16,7 @@ Inherits BotCommand
 	#tag Event
 		Function Match(value As String) As Boolean
 		  
-		  Return (value = "os")
+		  Return (value = "say")
 		  
 		End Function
 	#tag EndEvent

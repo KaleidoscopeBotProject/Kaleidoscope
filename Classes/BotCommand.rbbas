@@ -17,37 +17,47 @@ Protected Class BotCommand
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		 Shared Function handleCommand(client As BNETClient, acl As UserAccess, message As ChatMessage) As ChatResponse
+		 Shared Function handleCommand(client As BNETClient, acl As UserAccess, message As ChatMessage) As ChatResponse()
 		  
 		  If acl = Nil Then Return Nil
 		  
-		  Dim suggestedResponseType As Integer
-		  Dim cmd, args As String
-		  Dim response As ChatResponse
+		  Dim i, j, suggestedResponseType As Integer
+		  Dim cmds(), cmd, args As String
+		  Dim responses(), response As ChatResponse
 		  
 		  Select Case message.eventId
-		  Case Battlenet.EID_TALK
+		  Case Packets.EID_TALK
 		    suggestedResponseType = ChatResponse.TYPE_TALK
-		  Case Battlenet.EID_EMOTE
+		  Case Packets.EID_EMOTE
 		    suggestedResponseType = ChatResponse.TYPE_EMOTE
-		  Case Battlenet.EID_WHISPER
+		  Case Packets.EID_WHISPER
 		    suggestedResponseType = ChatResponse.TYPE_WHISPER
 		  Case Else
 		    Raise New KaleidoscopeException("Unable to handle command based on chat event id '" + Format(message.eventId, "-#") + "'")
 		  End Select
 		  
-		  cmd  = NthField(message.text, " ", 1)
-		  args = Mid(message.text, Len(cmd) + 2)
+		  cmds = Split(message.text, ";")
+		  i    = 0
+		  j    = UBound(cmds)
 		  
-		  For Each oCmd As BotCommand In BotCommand.registered
-		    If oCmd.matchCheck(cmd) Then
-		      If oCmd.aclAdmin And Not acl.aclAdmin Then Continue For
-		      response = oCmd.execute(client, message, suggestedResponseType, args)
-		      Exit For
-		    End If
-		  Next
+		  While i <= j
+		    cmd      = NthField(cmds(i), " ", 1)
+		    args     = Mid(cmds(i), Len(cmd) + 2)
+		    response = Nil
+		    
+		    For Each oCmd As BotCommand In BotCommand.registered
+		      If oCmd.matchCheck(cmd) Then
+		        If oCmd.aclAdmin And Not acl.aclAdmin Then Continue For
+		        response = oCmd.execute(client, message, suggestedResponseType, args)
+		        Exit For
+		      End If
+		    Next
+		    
+		    If response <> Nil Then responses.Append(response)
+		    i = i + 1
+		  Wend
 		  
-		  Return response
+		  Return responses
 		  
 		End Function
 	#tag EndMethod
@@ -65,6 +75,8 @@ Protected Class BotCommand
 		  
 		  BotCommand.registered.Append(New JoinCommand())
 		  BotCommand.registered.Append(New OSCommand())
+		  BotCommand.registered.Append(New PingMeCommand())
+		  BotCommand.registered.Append(New SayCommand())
 		  BotCommand.registered.Append(New TimeCommand())
 		  BotCommand.registered.Append(New VersionCommand())
 		  

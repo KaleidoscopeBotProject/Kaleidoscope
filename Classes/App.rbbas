@@ -279,6 +279,20 @@ Inherits ConsoleApplication
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function PlatformName() As String
+		  
+		  #If TargetWin32 Then
+		    Return "Windows"
+		  #ElseIf TargetLinux Then
+		    Return "Linux"
+		  #Else
+		    Return "Mac OS X"
+		  #EndIf
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function ProjectName() As String
 		  
 		  Return "Kaleidoscope"

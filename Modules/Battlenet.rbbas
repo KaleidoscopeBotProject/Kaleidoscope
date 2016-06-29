@@ -18,15 +18,10 @@ Protected Module Battlenet
 	#tag Method, Flags = &h1
 		Protected Sub getDefaultChannel(product As UInt32, ByRef flags As Uint32, ByRef channel As String)
 		  
-		  Const FLAG_NOCREATE = &H00
-		  Const FLAG_FIRST    = &H01
-		  Const FLAG_FORCE    = &H02
-		  Const FLAG_DIABLO2  = &H04
-		  
-		  flags = FLAG_FIRST
+		  flags = Packets.FLAG_FIRSTJOIN
 		  
 		  If Battlenet.isDiablo2(product) Then
-		    flags = BitOr(flags, FLAG_DIABLO2)
+		    flags = BitOr(flags, Packets.FLAG_DIABLO2JOIN)
 		  End If
 		  
 		  Select Case product
@@ -441,51 +436,6 @@ Protected Module Battlenet
 		End Function
 	#tag EndMethod
 
-
-	#tag Constant, Name = EID_BROADCAST, Type = Double, Dynamic = False, Default = \"&H06", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_CHANNEL, Type = Double, Dynamic = False, Default = \"&H07", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_CHANNEL_EMPTY, Type = Double, Dynamic = False, Default = \"&H0E", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_CHANNEL_FULL, Type = Double, Dynamic = False, Default = \"&H0D", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_CHANNEL_RESTRICTED, Type = Double, Dynamic = False, Default = \"&H0F", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_EMOTE, Type = Double, Dynamic = False, Default = \"&H17", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_ERROR, Type = Double, Dynamic = False, Default = \"&H13", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_INFO, Type = Double, Dynamic = False, Default = \"&H12", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_TALK, Type = Double, Dynamic = False, Default = \"&H05", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_USERJOIN, Type = Double, Dynamic = False, Default = \"&H02", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_USERLEAVE, Type = Double, Dynamic = False, Default = \"&H03", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_USERSHOW, Type = Double, Dynamic = False, Default = \"&H01", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_USERUPDATE, Type = Double, Dynamic = False, Default = \"&H09", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_WHISPER, Type = Double, Dynamic = False, Default = \"&H04", Scope = Protected
-	#tag EndConstant
-
-	#tag Constant, Name = EID_WHISPERSENT, Type = Double, Dynamic = False, Default = \"&H0A", Scope = Protected
-	#tag EndConstant
 
 	#tag Constant, Name = libBNCSUtil, Type = String, Dynamic = False, Default = \"", Scope = Protected
 		#Tag Instance, Platform = Linux, Language = Default, Definition  = \"/usr/lib/libbncsutil.so"

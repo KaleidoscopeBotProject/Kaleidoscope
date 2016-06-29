@@ -628,6 +628,63 @@ Protected Module Packets
 	#tag Constant, Name = BNLS_VERSIONCHECKEX2, Type = Double, Dynamic = False, Default = \"&H1A", Scope = Protected
 	#tag EndConstant
 
+	#tag Constant, Name = EID_BROADCAST, Type = Double, Dynamic = False, Default = \"&H06", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_CHANNEL, Type = Double, Dynamic = False, Default = \"&H07", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_CHANNEL_EMPTY, Type = Double, Dynamic = False, Default = \"&H0E", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_CHANNEL_FULL, Type = Double, Dynamic = False, Default = \"&H0D", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_CHANNEL_RESTRICTED, Type = Double, Dynamic = False, Default = \"&H0F", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_EMOTE, Type = Double, Dynamic = False, Default = \"&H17", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_ERROR, Type = Double, Dynamic = False, Default = \"&H13", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_INFO, Type = Double, Dynamic = False, Default = \"&H12", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_TALK, Type = Double, Dynamic = False, Default = \"&H05", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_USERJOIN, Type = Double, Dynamic = False, Default = \"&H02", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_USERLEAVE, Type = Double, Dynamic = False, Default = \"&H03", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_USERSHOW, Type = Double, Dynamic = False, Default = \"&H01", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_USERUPDATE, Type = Double, Dynamic = False, Default = \"&H09", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_WHISPER, Type = Double, Dynamic = False, Default = \"&H04", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = EID_WHISPERSENT, Type = Double, Dynamic = False, Default = \"&H0A", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = FLAG_DIABLO2JOIN, Type = Double, Dynamic = False, Default = \"&H04", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = FLAG_FIRSTJOIN, Type = Double, Dynamic = False, Default = \"&H01", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = FLAG_FORCEJOIN, Type = Double, Dynamic = False, Default = \"&H02", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = FLAG_NOCREATE, Type = Double, Dynamic = False, Default = \"&H00", Scope = Protected
+	#tag EndConstant
+
 	#tag Constant, Name = SID_AUTH_CHECK, Type = Double, Dynamic = False, Default = \"&H51", Scope = Protected
 	#tag EndConstant
 

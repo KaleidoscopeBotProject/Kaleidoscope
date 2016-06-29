@@ -1,14 +1,13 @@
 #tag Class
-Protected Class OSCommand
+Protected Class PingMeCommand
 Inherits BotCommand
 	#tag Event
 		Function Action(client As BNETClient, message As ChatMessage, suggestedResponseType As Integer, args As String) As ChatResponse
 		  
 		  #pragma Unused client
-		  #pragma Unused message
 		  #pragma Unused args
 		  
-		  Return New ChatResponse(suggestedResponseType, App.PlatformName())
+		  Return New ChatResponse(suggestedResponseType, "Your ping is " + Format(message.ping, "-#") + "ms")
 		  
 		End Function
 	#tag EndEvent
@@ -16,7 +15,7 @@ Inherits BotCommand
 	#tag Event
 		Function Match(value As String) As Boolean
 		  
-		  Return (value = "os")
+		  Return (value = "pingme")
 		  
 		End Function
 	#tag EndEvent
