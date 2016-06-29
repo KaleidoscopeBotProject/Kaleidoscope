@@ -3,10 +3,10 @@ Protected Class ChannelUser
 	#tag Method, Flags = &h0
 		Sub Constructor(username As String, metadata As String, ping As Int32, flags As UInt32)
 		  
-		  Me.username = username
+		  Me.flags    = flags
 		  Me.metadata = metadata
 		  Me.ping     = ping
-		  Me.flags    = flags
+		  Me.username = username
 		  
 		End Sub
 	#tag EndMethod
