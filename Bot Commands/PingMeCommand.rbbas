@@ -13,7 +13,9 @@ Inherits BotCommand
 	#tag EndEvent
 
 	#tag Event
-		Function Match(value As String) As Boolean
+		Function Match(value As String, trigger As String) As Boolean
+		  
+		  #pragma Unused trigger
 		  
 		  Return (value = "pingme")
 		  

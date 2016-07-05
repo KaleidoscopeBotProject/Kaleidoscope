@@ -1,14 +1,19 @@
 #tag Class
-Protected Class SayCommand
+Protected Class TriggerCommand
 Inherits BotCommand
 	#tag Event
 		Function Action(client As BNETClient, message As ChatMessage, suggestedResponseType As Integer, args As String) As ChatResponse
 		  
-		  #pragma Unused client
 		  #pragma Unused message
-		  #pragma Unused suggestedResponseType
+		  #pragma Unused args
 		  
-		  Return New ChatResponse(ChatResponse.TYPE_TALK, args)
+		  Dim msg As String = "Current Trigger: " + client.config.trigger
+		  
+		  If Len(client.config.trigger) = 1 Then
+		    msg = msg + " [ALT+" + Format(Asc(client.config.trigger), "#0000") + "]"
+		  End If
+		  
+		  Return New ChatResponse(suggestedResponseType, msg)
 		  
 		End Function
 	#tag EndEvent
@@ -18,7 +23,7 @@ Inherits BotCommand
 		  
 		  #pragma Unused trigger
 		  
-		  Return (value = "say")
+		  Return (value = "trigger")
 		  
 		End Function
 	#tag EndEvent
@@ -27,7 +32,7 @@ Inherits BotCommand
 	#tag Method, Flags = &h1000
 		Sub Constructor()
 		  
-		  Super.Constructor(True)
+		  Super.Constructor(False)
 		  
 		End Sub
 	#tag EndMethod

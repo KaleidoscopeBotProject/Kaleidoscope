@@ -22,16 +22,22 @@ Protected Class BotCommand
 		  If acl = Nil Then Return Nil
 		  
 		  Dim i, j, suggestedResponseType As Integer
-		  Dim text, cmds(), cmd, args As String
+		  Dim text, triggers(), trigger, cmds(), cmd, args As String
 		  Dim responses(), response As ChatResponse
 		  
-		  If StrComp(Left(message.text, Len(App.trigger)), App.trigger, 0) = 0 Then
-		    text = Mid(message.text, Len(App.trigger) + 1)
-		  ElseIf StrComp(Left(message.text, Len(client.config.trigger)), client.config.trigger, 0) = 0 Then
-		    text = Mid(message.text, Len(client.config.trigger) + 1)
-		  Else
-		    Return Nil
-		  End If
+		  triggers.Append(client.config.trigger)
+		  triggers.Append(App.trigger)
+		  triggers.Append("?")
+		  
+		  Do Until UBound(triggers) < 0
+		    trigger = triggers.Pop()
+		    If StrComp(Left(message.text, Len(trigger)), trigger, 0) = 0 Then
+		      text = Mid(message.text, Len(trigger) + 1)
+		      Exit Do
+		    End If
+		  Loop
+		  
+		  If UBound(triggers) < 0 And text = "" Then Return Nil
 		  
 		  Select Case message.eventId
 		  Case Packets.EID_TALK
@@ -54,7 +60,7 @@ Protected Class BotCommand
 		    response = Nil
 		    
 		    For Each oCmd As BotCommand In BotCommand.registered
-		      If oCmd.matchCheck(cmd) Then
+		      If oCmd.matchCheck(cmd, trigger) Then
 		        If oCmd.aclAdmin And Not acl.aclAdmin Then Continue For
 		        response = oCmd.execute(client, message, suggestedResponseType, args)
 		        Exit For
@@ -71,9 +77,9 @@ Protected Class BotCommand
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
-		Function matchCheck(value As String) As Boolean
+		Function matchCheck(value As String, trigger As String) As Boolean
 		  
-		  Return Match(value)
+		  Return Match(value, trigger)
 		  
 		End Function
 	#tag EndMethod
@@ -98,7 +104,7 @@ Protected Class BotCommand
 	#tag EndHook
 
 	#tag Hook, Flags = &h0
-		Event Match(value As String) As Boolean
+		Event Match(value As String, trigger As String) As Boolean
 	#tag EndHook
 
 
