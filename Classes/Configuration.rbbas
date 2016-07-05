@@ -60,6 +60,10 @@ Protected Class Configuration
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
+		trigger As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
 		username As String
 	#tag EndProperty
 
@@ -69,9 +73,26 @@ Protected Class Configuration
 			Name="bnetHost"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="bnlsHost"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="gameKey1"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="gameKey2"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="gameKeyOwner"
 			Group="Behavior"
 			Type="String"
 		#tag EndViewProperty
@@ -99,6 +120,7 @@ Protected Class Configuration
 			Name="password"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
@@ -117,6 +139,7 @@ Protected Class Configuration
 			Name="username"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

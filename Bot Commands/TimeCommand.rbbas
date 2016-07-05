@@ -27,7 +27,7 @@ Inherits BotCommand
 	#tag Method, Flags = &h1000
 		Sub Constructor()
 		  
-		  Super.Constructor(True)
+		  Super.Constructor(False)
 		  
 		End Sub
 	#tag EndMethod

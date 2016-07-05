@@ -203,6 +203,8 @@ Inherits ConsoleApplication
 		        Case "logPackets"
 		          Me.logPackets = Battlenet.strToBool(val)
 		          If Me.logPackets Then stderr.WriteLine("Packet logging enabled!")
+		        Case "trigger"
+		          Me.trigger = val
 		        Case Else
 		          Raise New ConfigParseException("Undefined directive '" + key + "' in global scope" + lineStr)
 		        End Select
@@ -253,6 +255,8 @@ Inherits ConsoleApplication
 		          client.config.platform = Battlenet.strToPlatform(val)
 		        Case "product"
 		          client.config.product = Battlenet.strToProduct(val)
+		        Case "trigger"
+		          client.config.trigger = val
 		        Case "username"
 		          client.config.username = val
 		        Case Else
@@ -338,6 +342,10 @@ Inherits ConsoleApplication
 
 	#tag Property, Flags = &h0
 		logPackets As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		trigger As String
 	#tag EndProperty
 
 

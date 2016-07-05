@@ -22,8 +22,16 @@ Protected Class BotCommand
 		  If acl = Nil Then Return Nil
 		  
 		  Dim i, j, suggestedResponseType As Integer
-		  Dim cmds(), cmd, args As String
+		  Dim text, cmds(), cmd, args As String
 		  Dim responses(), response As ChatResponse
+		  
+		  If StrComp(Left(message.text, Len(App.trigger)), App.trigger, 0) = 0 Then
+		    text = Mid(message.text, Len(App.trigger) + 1)
+		  ElseIf StrComp(Left(message.text, Len(client.config.trigger)), client.config.trigger, 0) = 0 Then
+		    text = Mid(message.text, Len(client.config.trigger) + 1)
+		  Else
+		    Return Nil
+		  End If
 		  
 		  Select Case message.eventId
 		  Case Packets.EID_TALK
@@ -36,7 +44,7 @@ Protected Class BotCommand
 		    Raise New KaleidoscopeException("Unable to handle command based on chat event id '" + Format(message.eventId, "-#") + "'")
 		  End Select
 		  
-		  cmds = Split(message.text, ";")
+		  cmds = Split(text, ";")
 		  i    = 0
 		  j    = UBound(cmds)
 		  
@@ -78,6 +86,7 @@ Protected Class BotCommand
 		  BotCommand.registered.Append(New PingMeCommand())
 		  BotCommand.registered.Append(New SayCommand())
 		  BotCommand.registered.Append(New TimeCommand())
+		  BotCommand.registered.Append(New TriggerCommand())
 		  BotCommand.registered.Append(New VersionCommand())
 		  
 		End Sub
