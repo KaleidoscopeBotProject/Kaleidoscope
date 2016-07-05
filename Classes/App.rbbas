@@ -220,6 +220,8 @@ Inherits ConsoleApplication
 		          access.aclAdmin = Battlenet.strToBool(val)
 		        Case "ignoreRealm"
 		          access.ignoreRealm = Battlenet.strToBool(val)
+		        Case "supplementalRealms"
+		          access.supplementalRealms = val
 		        Case Else
 		          Raise New ConfigParseException("Undefined directive '" + key + "' in group '" + group + "'" + lineStr)
 		        End Select

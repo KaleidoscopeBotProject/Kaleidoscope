@@ -211,7 +211,7 @@ Protected Module Battlenet
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function onlineNameToAccountName(onlineName As String, ourProduct As UInt32, ignoreRealm As Boolean) As String
+		Protected Function onlineNameToAccountName(onlineName As String, ourProduct As UInt32, ignoreRealm As Boolean, supplementalRealms As String) As String
 		  
 		  Dim accountName As String = onlineName
 		  
@@ -222,6 +222,7 @@ Protected Module Battlenet
 		  If ignoreRealm = False Then
 		    
 		    Dim realms() As String
+		    Dim extraRealms() As String
 		    Dim cursor As Integer
 		    
 		    If Battlenet.isWarcraft3(ourProduct) Then
@@ -235,6 +236,12 @@ Protected Module Battlenet
 		      realms.Append("@Kalimdor")
 		      realms.Append("@Northrend")
 		    End If
+		    
+		    extraRealms = Split(supplementalRealms, ",")
+		    
+		    For Each realm As String In extraRealms
+		      If Left(realm, 1) <> "@" Then realms.Append("@" + realm) Else realms.Append(realm)
+		    Next
 		    
 		    Do Until UBound(realms) < 0
 		      

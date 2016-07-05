@@ -71,12 +71,18 @@ Protected Class BNETClient
 	#tag Method, Flags = &h0
 		Function getAcl(onlineName As String) As UserAccess
 		  
-		  Dim accountNameNoRealm As String = Battlenet.onlineNameToAccountName(onlineName, Me.state.product, False)
-		  Dim accountNameRealm   As String = Battlenet.onlineNameToAccountName(onlineName, Me.state.product, True)
+		  Dim accountNameRealm   As String = Battlenet.onlineNameToAccountName(onlineName, Me.state.product, True, "")
 		  
 		  For Each acl As UserAccess In Me.acl
-		    If acl.ignoreRealm = True  And acl.accountName = accountNameNoRealm Then Return acl
-		    If acl.ignoreRealm = False And acl.accountName = accountNameRealm   Then Return acl
+		    If acl.ignoreRealm = True Then
+		      If acl.accountName = Battlenet.onlineNameToAccountName(onlineName, Me.state.product, False, acl.supplementalRealms) Then
+		        Return acl
+		      End If
+		    Else
+		      If acl.accountName = accountNameRealm Then
+		        Return acl
+		      End If
+		    End If
 		  Next
 		  
 		  Return Nil

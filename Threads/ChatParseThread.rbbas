@@ -19,7 +19,7 @@ Inherits Thread
 		    Select Case msg.eventId
 		    Case Packets.EID_USERSHOW, Packets.EID_USERJOIN, Packets.EID_USERUPDATE
 		      
-		      Dim username As String = Battlenet.onlineNameToAccountName(msg.username, Me.client.state.product, True)
+		      Dim username As String = Battlenet.onlineNameToAccountName(msg.username, Me.client.state.product, True, "")
 		      
 		      Me.client.state.channelUsers.Value(username) = New ChannelUser(msg.username, msg.text, msg.ping, msg.flags)
 		      
@@ -27,7 +27,7 @@ Inherits Thread
 		      
 		    Case Packets.EID_USERLEAVE
 		      
-		      Dim username As String = Battlenet.onlineNameToAccountName(msg.username, Me.client.state.product, True)
+		      Dim username As String = Battlenet.onlineNameToAccountName(msg.username, Me.client.state.product, True, "")
 		      
 		      If Me.client.state.channelUsers.HasKey(username) Then
 		        Me.client.state.channelUsers.Remove(username)
