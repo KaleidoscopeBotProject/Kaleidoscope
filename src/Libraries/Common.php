@@ -9,14 +9,39 @@ use \Kaleidoscope\Libraries\UserAccess;
 
 class Common {
 
+  const VERSION_MAJOR = 0;
+  const VERSION_MINOR = 0;
+  const VERSION_BUG   = 0;
+
+  public static $clients    = null;
   public static $config     = null;
   public static $configFile = "";
   public static $exitCode   = 0;
+  public static $logPackets = false;
+  public static $trigger    = null;
 
   private function __construct() {}
 
   public static function getPlatformName() {
     return php_uname("srm");
+  }
+
+  public static function getProjectName() {
+    return "Kaleidoscope";
+  }
+
+  public static function getVersionString() {
+
+    $version = self::VERSION_MAJOR . "."
+      . self::VERSION_MINOR . "."
+      . self::VERSION_BUG;
+
+    if (file_exists("../.git")) {
+      $commit = shell_exec("git rev-parse HEAD | cut -c-7");
+      $version .= "-" . $commit;
+    }
+
+    return $version;
   }
 
   public static function parseArgs($args) {
@@ -151,6 +176,7 @@ class Common {
             }
             case "client": {
               self::$clients[] = $client;
+              break;
             }
             default: {
               throw new ConfigParseException(
@@ -192,7 +218,7 @@ class Common {
           case "": {
             switch (strtolower($key)) {
               case "logpackets": {
-                self::$logPackets = self::strToBool($val);
+                self::$logPackets = filter_var($val, FILTER_VALIDATE_BOOLEAN);
                 if (self::$logPackets) {
                   fwrite(STDERR, "Packet logging enabled!\n");
                 }

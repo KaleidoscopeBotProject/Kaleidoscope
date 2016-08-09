@@ -12,6 +12,9 @@ function main($argc, $argv) {
       $path = "./" . substr($class, 13) . ".php";
     }
     $path = str_replace("\\", DIRECTORY_SEPARATOR, $path);
+    if (!file_exists($path)) {
+      trigger_error("Cannot find " . $class . " at " . $path, E_USER_ERROR);
+    }
     require_once($path);
   }, true);
 
@@ -20,7 +23,15 @@ function main($argc, $argv) {
   Common::parseArgs($argv);
   Common::parseConfig();
 
+  echo strtolower(Common::getProjectName()) . "-"
+    . Common::getVersionString() . PHP_EOL . PHP_EOL;
+
+  foreach (Common::$clients as $client) {
+    $client->connect();
+  }
+
   while (Common::$exitCode === 0) {
+    echo "Tick";
     usleep(1000);
   }
 
