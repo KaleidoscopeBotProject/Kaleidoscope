@@ -2,11 +2,11 @@
 
 namespace Kaleidoscope\Libraries;
 
-use \Kaleidoscope\Libraries\BNETSocket;
-use \Kaleidoscope\Libraries\BNLSSocket;
-use \Kaleidoscope\Libraries\ChatParseThread;
 use \Kaleidoscope\Libraries\Configuration;
-use \Kaleidoscope\Libraries\PacketParseThread;
+use \Kaleidoscope\Libraries\Sockets\BNETSocket;
+use \Kaleidoscope\Libraries\Sockets\BNLSSocket;
+use \Kaleidoscope\Libraries\Threads\ChatParseThread;
+use \Kaleidoscope\Libraries\Threads\PacketParseThread;
 
 class BNETClient {
 
