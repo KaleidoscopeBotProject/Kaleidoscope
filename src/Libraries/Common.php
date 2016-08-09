@@ -191,7 +191,7 @@ class Common {
         switch (strtolower($group)) {
           case "": {
             switch (strtolower($key)) {
-              case "logPackets": {
+              case "logpackets": {
                 self::$logPackets = self::strToBool($val);
                 if (self::$logPackets) {
                   fwrite(STDERR, "Packet logging enabled!\n");
