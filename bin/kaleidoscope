@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cd ../src
+php ./main.php --config ../etc/kaleidoscope.conf
