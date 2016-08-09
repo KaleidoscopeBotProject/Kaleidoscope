@@ -1,4 +1,5 @@
 #!/bin/bash
 
-cd ../src
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd "${DIR}/../src"
 php ./main.php --config ../etc/kaleidoscope.conf
