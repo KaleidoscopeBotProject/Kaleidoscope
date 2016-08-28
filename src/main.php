@@ -1,4 +1,3 @@
-#!/usr/bin/php
 <?php
 /**
  *  Kaleidoscope, a cross-platform classic Battle.net client daemon

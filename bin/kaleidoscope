@@ -1,5 +1,7 @@
-#!/bin/bash
+#!/usr/bin/env php
+<?php
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-cd "${DIR}/../src"
-php ./main.php --config ../etc/kaleidoscope.conf
+namespace Kaleidoscope;
+
+chdir(dirname($argv[0]) . "/../src");
+require_once("./main.php");
