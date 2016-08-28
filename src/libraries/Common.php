@@ -5,6 +5,7 @@ namespace Kaleidoscope\Libraries;
 use \Kaleidoscope\Exceptions\ConfigParseException;
 use \Kaleidoscope\Exceptions\KaleidoscopeException;
 use \Kaleidoscope\Libraries\BNETClient;
+use \Kaleidoscope\Libraries\Term;
 use \Kaleidoscope\Libraries\UserAccess;
 
 class Common {
@@ -51,7 +52,7 @@ class Common {
     $ubound = count($args);
 
     if ($ubound % 2 == 1) {
-      fwrite(STDERR, "Insufficient number of arguments\n");
+      Term::stderr("Insufficient number of arguments" . PHP_EOL);
       Common::$exitCode = 1;
       return;
     }
@@ -72,7 +73,7 @@ class Common {
           self::$configFile = $val;
           break;
         default:
-          fwrite(STDERR, "Invalid argument: " . $key . "\n");
+          Term::stderr("Invalid argument: " . $key . PHP_EOL);
           self::$exitCode = 1;
           return;
       }
@@ -87,7 +88,7 @@ class Common {
 
     if (empty($file)) {
       $file = getcwd() . "/../etc/kaleidoscope.conf";
-      fwrite(STDERR, "Assuming config file: " . $file . "\n");
+      Term::stderr("Assuming config file: " . $file . PHP_EOL);
     }
 
     if (!file_exists($file)) {
@@ -220,7 +221,7 @@ class Common {
               case "logpackets": {
                 self::$logPackets = filter_var($val, FILTER_VALIDATE_BOOLEAN);
                 if (self::$logPackets) {
-                  fwrite(STDERR, "Packet logging enabled!\n");
+                  Term::stderr("Packet logging enabled!" . PHP_EOL);
                 }
                 break;
               }
