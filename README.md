@@ -16,6 +16,14 @@ at the root of this repository for more details.
 git clone git@github.com:carlbennett/kaleidoscope.git && cd ./kaleidoscope
 ```
 
+### Dependencies
+```sh
+composer install
+```
+
+If you haven't installed composer, it can be downloaded from
+[here](https://getcomposer.org/download/).
+
 ### Configure
 1. Copy the `/etc/kaleidoscope.sample.conf` file to `/etc/kaleidoscope.conf`
 2. Edit the `/etc/kaleidoscope.conf` file in your favorite text editor
