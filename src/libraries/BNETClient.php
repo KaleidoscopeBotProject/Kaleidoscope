@@ -18,11 +18,11 @@ class BNETClient {
     $this->socBNLS      = new BNLSSocket();
     $this->state        = null;
 
-    $this->chatParser->client = $this;
-    $this->packetParse->client = $this;
+    $this->chatParser->client = &$this;
+    $this->packetParse->client = &$this;
 
-    $this->socBNET->client = $this;
-    $this->socBNLS->client = $this;
+    $this->socBNET->client = &$this;
+    $this->socBNLS->client = &$this;
   }
 
   public function connect() {
