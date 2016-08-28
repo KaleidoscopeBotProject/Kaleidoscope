@@ -37,7 +37,7 @@ class Common {
       . self::VERSION_BUG;
 
     if (file_exists("../.git")) {
-      $commit = shell_exec("git rev-parse HEAD | cut -c-7");
+      $commit = trim(shell_exec("git rev-parse HEAD | cut -c-7"), "\r\n");
       $version .= "-" . $commit;
     }
 

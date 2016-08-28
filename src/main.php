@@ -21,6 +21,7 @@
 namespace Kaleidoscope;
 
 use \Kaleidoscope\Libraries\Common;
+use \Kaleidoscope\Libraries\Term;
 
 function main($argc, $argv) {
 
@@ -43,15 +44,14 @@ function main($argc, $argv) {
   Common::parseArgs($argv);
   Common::parseConfig();
 
-  echo strtolower(Common::getProjectName()) . "-"
-    . Common::getVersionString() . PHP_EOL . PHP_EOL;
+  Term::stdout(strtolower(Common::getProjectName()) . "-"
+    . Common::getVersionString() . PHP_EOL . PHP_EOL);
 
   foreach (Common::$clients as $client) {
     $client->connect();
   }
 
   while (Common::$exitCode === 0) {
-    echo "Tick";
     usleep(1000);
   }
 
