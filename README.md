@@ -11,10 +11,18 @@ aforementioned trademarks are the property of their respective owners. Read the
 at the root of this repository for more details.
 
 ## Installation
-### Download this repository
+### Download
+#### Development
 ```sh
 git clone git@github.com:carlbennett/kaleidoscope.git && cd ./kaleidoscope
 ```
+
+#### Stable
+You can download the latest release from
+[here](https://github.com/carlbennett/kaleidoscope/releases/latest).
+
+Once downloaded, extract the files into a new directory, open your terminal,
+and switch to that directory.
 
 ### Dependencies
 ```sh
