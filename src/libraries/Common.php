@@ -79,7 +79,7 @@ class Common {
     $file = self::$configFile;
 
     if (empty($file)) {
-      $file = getcwd() . "/../etc/kaleidoscope.conf";
+      $file = realpath(getcwd() . "/../etc/kaleidoscope.conf");
       Term::stderr("Assuming config file: " . $file . PHP_EOL);
     }
 
