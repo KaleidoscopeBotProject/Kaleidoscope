@@ -33,7 +33,7 @@ class Common {
       return "unofficial";
     }
 
-    return trim(shell_exec("git describe --tags --long --always"), "\r\n");
+    return trim(shell_exec("git describe --always --tags"), "\r\n");
 
   }
 
