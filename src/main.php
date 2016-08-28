@@ -7,16 +7,19 @@ use \Kaleidoscope\Libraries\Common;
 
 function main($argc, $argv) {
 
-  spl_autoload_register(function($class){
-    if (substr($class, 0, 13) == "Kaleidoscope\\") {
-      $path = "./" . substr($class, 13) . ".php";
-    }
-    $path = str_replace("\\", DIRECTORY_SEPARATOR, $path);
-    if (!file_exists($path)) {
-      trigger_error("Cannot find " . $class . " at " . $path, E_USER_ERROR);
-    }
-    require_once($path);
-  }, true);
+  if (php_sapi_name() !== "cli") {
+    http_response_code(500);
+    exit(
+      "This application is only designed for the php-cli package." . PHP_EOL
+    );
+  }
+
+  if (!file_exists(__DIR__ . "/../lib/autoload.php")) {
+    exit(
+      "Server misconfigured. Please run `composer install`." . PHP_EOL
+    );
+  }
+  require(__DIR__ . "/../lib/autoload.php");
 
   Common::$exitCode = 0;
 

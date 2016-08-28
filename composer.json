@@ -1,0 +1,56 @@
+{
+    "name": "carlbennett/kaleidoscope",
+    "description": "Cross-platform Classic Battle.net client daemon",
+    "type": "project",
+    "keywords": [
+        "cross-platform",
+        "linux",
+        "unix",
+        "mac",
+        "darwin",
+        "windows",
+        "classic",
+        "battle.net",
+        "protocol",
+        "battlenet",
+        "b.net",
+        "bnet",
+        "warcraft",
+        "starcraft",
+        "diablo",
+        "client",
+        "bot",
+        "daemon",
+        "reverse",
+        "engineer"
+    ],
+    "homepage": "https://github.com/carlbennett/kaleidoscope",
+    "license": "CC-BY-NC-SA-4.0",
+    "authors": [
+        {
+            "name": "Carl Bennett",
+            "email": "carl@carlbennett.me"
+        }
+    ],
+    "config": {
+      "vendor-dir": "lib"
+    },
+    "autoload": {
+        "psr-4": {
+            "Kaleidoscope\\Exceptions\\": "src/exceptions",
+            "Kaleidoscope\\Libraries\\": "src/libraries"
+        }
+    },
+    "require": {
+        "ext-curl": "*",
+        "ext-geoip": "*",
+        "ext-gmp": "*",
+        "ext-http": "*",
+        "ext-json": "*",
+        "ext-mbstring": "*",
+        "ext-mcrypt": "*",
+        "ext-memcached": "*",
+        "ext-pdo": "*",
+        "php-64bit": ">=5.5.0"
+    }
+}
