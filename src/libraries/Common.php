@@ -10,10 +10,6 @@ use \Kaleidoscope\Libraries\UserAccess;
 
 class Common {
 
-  const VERSION_MAJOR = 0;
-  const VERSION_MINOR = 0;
-  const VERSION_BUG   = 0;
-
   public static $clients    = null;
   public static $config     = null;
   public static $configFile = "";
@@ -33,16 +29,12 @@ class Common {
 
   public static function getVersionString() {
 
-    $version = self::VERSION_MAJOR . "."
-      . self::VERSION_MINOR . "."
-      . self::VERSION_BUG;
-
-    if (file_exists("../.git")) {
-      $commit = trim(shell_exec("git rev-parse HEAD | cut -c-7"), "\r\n");
-      $version .= "-" . $commit;
+    if (!file_exists("../.git")) {
+      return "unofficial";
     }
 
-    return $version;
+    return trim(shell_exec("git describe --tags --long --always"), "\r\n");
+
   }
 
   public static function parseArgs($args) {
