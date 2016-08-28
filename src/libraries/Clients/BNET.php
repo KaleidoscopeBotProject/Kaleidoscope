@@ -1,6 +1,6 @@
 <?php
 
-namespace Kaleidoscope\Libraries;
+namespace Kaleidoscope\Libraries\Clients;
 
 use \Kaleidoscope\Libraries\Configuration;
 use \Kaleidoscope\Libraries\Sockets\BNETSocket;
@@ -8,7 +8,7 @@ use \Kaleidoscope\Libraries\Sockets\BNLSSocket;
 use \Kaleidoscope\Libraries\Threads\ChatParseThread;
 use \Kaleidoscope\Libraries\Threads\PacketParseThread;
 
-class BNETClient {
+class BNET {
 
   public function __construct() {
     $this->chatParser   = new ChatParseThread();

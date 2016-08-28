@@ -4,7 +4,7 @@ namespace Kaleidoscope\Libraries;
 
 use \Kaleidoscope\Exceptions\ConfigParseException;
 use \Kaleidoscope\Exceptions\KaleidoscopeException;
-use \Kaleidoscope\Libraries\BNETClient;
+use \Kaleidoscope\Libraries\Clients\BNET as BNETClient;
 use \Kaleidoscope\Libraries\Term;
 use \Kaleidoscope\Libraries\UserAccess;
 
