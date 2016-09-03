@@ -4,6 +4,7 @@ namespace Kaleidoscope\Libraries;
 
 use \Kaleidoscope\Exceptions\ConfigParseException;
 use \Kaleidoscope\Exceptions\KaleidoscopeException;
+use \Kaleidoscope\Libraries\Battlenet;
 use \Kaleidoscope\Libraries\Clients\BNET as BNETClient;
 use \Kaleidoscope\Libraries\Term;
 use \Kaleidoscope\Libraries\UserAccess;
@@ -229,6 +230,100 @@ class Common {
               }
             }
             break;
+          }
+          case "access": {
+            switch (strtolower($key)) {
+              case "accountname": {
+                $access->accountName = $val;
+                break;
+              }
+              case "acladmin": {
+                $access->aclAdmin = filter_var($val, FILTER_VALIDATE_BOOLEAN);
+                break;
+              }
+              case "ignorerealm": {
+                $access->ignoreRealm = filter_var(
+                  $val, FILTER_VALIDATE_BOOLEAN
+                );
+                break;
+              }
+              case "supplementalrealms": {
+                $access->supplementalRealms = $val;
+                break;
+              }
+            }
+            break;
+          }
+          case "client": {
+            if (!$client instanceof BNETClient) {
+              throw new ConfigParseException(
+                "Group '" . $group . "' being used with null client object"
+                . $lineStr
+              );
+            }
+            switch (strtolower($key)) {
+              case "bnethost": {
+                $client->config->bnetHost = $val;
+                break;
+              }
+              case "bnetport": {
+                $client->config->bnetPort = (int) $val;
+                break;
+              }
+              case "bnlshost": {
+                $client->config->bnlsHost = $val;
+                break;
+              }
+              case "bnlsport": {
+                $client->config->bnlsPort = (int) $val;
+                break;
+              }
+              case "gamekey1": {
+                $client->config->gameKey1 = Battlenet::strToGameKey($val);
+                break;
+              }
+              case "gamekey2": {
+                $client->config->gameKey2 = Battlenet::strToGameKey($val);
+                break;
+              }
+              case "gamekeyowner": {
+                $client->config->gameKeyOwner = $val;
+                break;
+              }
+              case "password": {
+                $client->config->password = $val;
+                break;
+              }
+              case "platform": {
+                $client->config->platform = Battlenet::strToPlatform($val);
+                break;
+              }
+              case "product": {
+                $client->config->product = Battlenet::strToProduct($val);
+                break;
+              }
+              case "trigger": {
+                $client->config->trigger = $val;
+                break;
+              }
+              case "username": {
+                $client->config->username = $val;
+                break;
+              }
+              default: {
+                throw new ConfigParseException(
+                  "Undefined directive '" . $key . "' in group '" . $group
+                  . "'" . $lineStr
+                );
+              }
+            }
+            break;
+          }
+          default: {
+            throw new ConfigParseException(
+              "Undefined directive '" . $key . "' in group '" . $group . "'"
+              . $lineStr
+            );
           }
         }
 
