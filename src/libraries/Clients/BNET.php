@@ -3,8 +3,8 @@
 namespace Kaleidoscope\Libraries\Clients;
 
 use \Kaleidoscope\Libraries\Configuration;
-use \Kaleidoscope\Libraries\Sockets\BNETSocket;
-use \Kaleidoscope\Libraries\Sockets\BNLSSocket;
+use \Kaleidoscope\Libraries\Sockets\BNET as BNETSocket;
+use \Kaleidoscope\Libraries\Sockets\BNLS as BNLSSocket;
 use \Kaleidoscope\Libraries\Threads\ChatParseThread;
 use \Kaleidoscope\Libraries\Threads\PacketParseThread;
 

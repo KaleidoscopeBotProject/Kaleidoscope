@@ -2,6 +2,6 @@
 
 namespace Kaleidoscope\Libraries\Sockets;
 
-class BNETSocket {
+class BNLS {
 
 }
