@@ -7,6 +7,11 @@ use \Kaleidoscope\Exceptions\BattlenetException;
 
 class Battlenet {
 
+  const FLAG_CHANNEL_JOIN_NOCREATE = 0x00;
+  const FLAG_CHANNEL_JOIN_FIRST    = 0x01;
+  const FLAG_CHANNEL_JOIN_FORCE    = 0x02;
+  const FLAG_CHANNEL_JOIN_DIABLO2  = 0x04;
+
   const PLATFORM_IX86 = 0x49583836;
   const PLATFORM_PMAC = 0x504D4143;
   const PLATFORM_XMAC = 0x584D4143;
@@ -27,6 +32,34 @@ class Battlenet {
 
   public static function getClientToken() {
     return gmp_random_bits(32);
+  }
+
+  public static function getDefaultChannel($product) {
+    $flags = self::FLAG_CHANNEL_JOIN_FIRST;
+
+    if (self::isDiablo2($product)) {
+      $flags |= self::FLAG_CHANNEL_JOIN_DIABLO2;
+    }
+
+    switch ($product) {
+      case self::PRODUCT_D2DV: $channel = "Diablo II"          ; break;
+      case self::PRODUCT_D2XP: $channel = "Lord of Destruction"; break;
+      case self::PRODUCT_DRTL: $channel = "Diablo"             ; break;
+      case self::PRODUCT_DSHR: $channel = "Diablo"             ; break;
+      case self::PRODUCT_JSTR: $channel = "StarCraft"          ; break;
+      case self::PRODUCT_SEXP: $channel = "Brood War"          ; break;
+      case self::PRODUCT_SSHR: $channel = "StarCraft"          ; break;
+      case self::PRODUCT_STAR: $channel = "StarCraft"          ; break;
+      case self::PRODUCT_W2BN: $channel = "WarCraft II"        ; break;
+      case self::PRODUCT_W3DM: $channel = "WarCraft III"       ; break;
+      case self::PRODUCT_W3XP: $channel = "Frozen Throne"      ; break;
+      case self::PRODUCT_WAR3: $channel = "WarCraft III"       ; break;
+      default: throw new BattlenetException(
+        "Unable to translate value '" . (int) $product . "' to default channel"
+      );
+    }
+
+    return [$flags, $channel];
   }
 
   public static function getTimezone() {
