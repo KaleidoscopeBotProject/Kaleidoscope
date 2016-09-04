@@ -43,14 +43,9 @@
     },
     "require": {
         "ext-curl": "*",
-        "ext-geoip": "*",
         "ext-gmp": "*",
-        "ext-http": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
-        "ext-mcrypt": "*",
-        "ext-memcached": "*",
-        "ext-pdo": "*",
         "php-64bit": ">=5.5.0"
     }
 }
