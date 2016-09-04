@@ -34,7 +34,7 @@ function main($argc, $argv) {
 
   if (!file_exists(__DIR__ . "/../lib/autoload.php")) {
     exit(
-      "Server misconfigured. Please run `composer install`." . PHP_EOL
+      "Application misconfigured. Please run `composer install`." . PHP_EOL
     );
   }
   require(__DIR__ . "/../lib/autoload.php");
