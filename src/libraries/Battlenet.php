@@ -25,6 +25,10 @@ class Battlenet {
   const PRODUCT_W3XP = 0x57335850;
   const PRODUCT_WAR3 = 0x57415233;
 
+  public static function getClientToken() {
+    return gmp_random_bits(32);
+  }
+
   public static function getTimezone() {
     $er = error_reporting(); error_reporting($er & ~E_WARNING);
     $tz = date_default_timezone_get();
