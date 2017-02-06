@@ -10,6 +10,7 @@ Protected Class BNETState
 		  Me.channelUsers          = New Dictionary()
 		  Me.client                = client
 		  Me.clientToken           = Battlenet.getClientToken()
+		  Me.email                 = client.config.email
 		  Me.gameKey1              = client.config.gameKey1
 		  Me.gameKey2              = client.config.gameKey2
 		  Me.gameKeyOwner          = client.config.gameKeyOwner
@@ -91,6 +92,10 @@ Protected Class BNETState
 
 	#tag Property, Flags = &h0
 		clientToken As UInt32
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		email As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -195,21 +200,30 @@ Protected Class BNETState
 			Name="accountName"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="channel"
+			Group="Behavior"
+			Type="String"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="gameKey1"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="gameKey2"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="gameKeyOwner"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
@@ -235,16 +249,19 @@ Protected Class BNETState
 			Name="password"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="serverSignature"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="statstring"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
@@ -263,11 +280,13 @@ Protected Class BNETState
 			Name="uniqueName"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="username"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="versionAndKeyPassed"
@@ -278,16 +297,19 @@ Protected Class BNETState
 			Name="versionCheckFileName"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="versionCheckSignature"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="versionSignature"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

@@ -62,7 +62,7 @@ Inherits ConsoleApplication
 		  Dim index As Integer
 		  Dim upperbound As Integer = UBound(args)
 		  
-		  If upperbound Mod 2 = 1 Then
+		  If upperbound Mod 2 = 0 Then
 		    stderr.WriteLine("Insufficient number of arguments")
 		    Me.exitCode = 1
 		    Return
@@ -243,6 +243,8 @@ Inherits ConsoleApplication
 		          client.config.bnlsHost = val
 		        Case "bnlsPort"
 		          client.config.bnlsPort = Val(val)
+		        Case "email"
+		          client.config.email = val
 		        Case "gameKey1"
 		          client.config.gameKey1 = Battlenet.strToGameKey(val)
 		        Case "gameKey2"
@@ -359,6 +361,12 @@ Inherits ConsoleApplication
 			Name="logPackets"
 			Group="Behavior"
 			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="trigger"
+			Group="Behavior"
+			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class

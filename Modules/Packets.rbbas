@@ -151,6 +151,19 @@ Protected Module Packets
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function CreateBNET_SID_RESETPASSWORD(username As String, email As String) As String
+		  
+		  Dim o As New MemoryBlock(2 + LenB(username) + LenB(email))
+		  
+		  o.CString(0) = username
+		  o.CString(1 + LenB(username)) = email
+		  
+		  Return Packets.CreateBNET(Packets.SID_RESETPASSWORD, o)
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Function CreateBNLS(packetId As Byte, packetData As String) As String
 		  
@@ -725,6 +738,9 @@ Protected Module Packets
 	#tag EndConstant
 
 	#tag Constant, Name = SID_PING, Type = Double, Dynamic = False, Default = \"&H25", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_RESETPASSWORD, Type = Double, Dynamic = False, Default = \"&H5A", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = SID_STARTVERSIONING, Type = Double, Dynamic = False, Default = \"&H06", Scope = Protected

@@ -7,6 +7,7 @@ Protected Class Configuration
 		  Me.bnetPort     = 6112
 		  Me.bnlsHost     = "bnls.bnetdocs.org"
 		  Me.bnlsPort     = 9367
+		  Me.email        = ""
 		  Me.gameKey1     = ""
 		  Me.gameKey2     = ""
 		  Me.gameKeyOwner = "Kaleidoscope"
@@ -33,6 +34,10 @@ Protected Class Configuration
 
 	#tag Property, Flags = &h0
 		bnlsPort As UInt16
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		email As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -85,16 +90,19 @@ Protected Class Configuration
 			Name="gameKey1"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="gameKey2"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="gameKeyOwner"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
@@ -134,6 +142,11 @@ Protected Class Configuration
 			Group="Position"
 			InitialValue="0"
 			InheritedFrom="Object"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="trigger"
+			Group="Behavior"
+			Type="String"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="username"

@@ -350,6 +350,32 @@ Protected Module Battlenet
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub resetPassword(client As BNETClient)
+		  
+		  Const TYPE_OLS      = &H00
+		  Const TYPE_NLS_BETA = &H01
+		  Const TYPE_NLS      = &H02
+		  
+		  Select Case client.state.logonType
+		  Case TYPE_OLS
+		    
+		    client.socBNET.Write(Packets.CreateBNET_SID_RESETPASSWORD(_
+		    client.state.username, client.state.email))
+		    
+		  Case TYPE_NLS_BETA, TYPE_NLS
+		    
+		    stderr.WriteLine("DEBUG: NLS")
+		    
+		  Case Else
+		    
+		    Raise New BattlenetException("Undefined logon type '" + Format(client.state.logonType, "-#") + "'")
+		    
+		  End Select
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function strToBool(value As String) As Boolean
 		  
 		  Select Case value
