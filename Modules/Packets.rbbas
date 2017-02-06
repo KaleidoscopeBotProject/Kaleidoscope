@@ -339,6 +339,7 @@ Protected Module Packets
 		  
 		  stderr.WriteLine("BNET: Version and key challenge passed.")
 		  
+		  // Battlenet.resetPassword(client)
 		  Battlenet.login(client)
 		  
 		End Sub
