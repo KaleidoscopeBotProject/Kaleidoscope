@@ -215,8 +215,9 @@ Protected Module Battlenet
 		  
 		  Dim accountName As String = onlineName
 		  
-		  If Battlenet.isDiablo2(ourProduct) Then
-		    accountName = Mid(accountName, InStr(accountName, "*") + 1)
+		  Dim d2Asterisk As Integer = InStr(accountName, "*")
+		  If Battlenet.isDiablo2(ourProduct) And d2Asterisk > 0 Then
+		    accountName = Mid(accountName, d2Asterisk + 1)
 		  End If
 		  
 		  If ignoreRealm = False Then
