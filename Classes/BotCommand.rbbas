@@ -89,6 +89,7 @@ Protected Class BotCommand
 		  
 		  BotCommand.registered.Append(New JoinCommand())
 		  BotCommand.registered.Append(New OSCommand())
+		  BotCommand.registered.Append(New PingCommand())
 		  BotCommand.registered.Append(New PingMeCommand())
 		  BotCommand.registered.Append(New SayCommand())
 		  BotCommand.registered.Append(New TimeCommand())
