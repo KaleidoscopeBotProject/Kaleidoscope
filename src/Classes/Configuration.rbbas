@@ -87,6 +87,11 @@ Protected Class Configuration
 			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="email"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="gameKey1"
 			Group="Behavior"
 			Type="String"
@@ -147,6 +152,7 @@ Protected Class Configuration
 			Name="trigger"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="username"
