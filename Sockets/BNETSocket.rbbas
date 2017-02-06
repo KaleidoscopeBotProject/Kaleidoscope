@@ -29,6 +29,11 @@ Inherits TCPSocket
 	#tag Event
 		Sub DataAvailable()
 		  
+		  If Me.client.state = Nil Then
+		    // We were most likely disconnected already since its null.
+		    Return
+		  End If
+		  
 		  If Me.client.state.bnetReadBuffer = Nil Then
 		    Me.client.state.bnetReadBuffer = Me.ReadAll()
 		  Else
