@@ -4,6 +4,8 @@ Inherits BotCommand
 	#tag Event
 		Function Action(client As BNETClient, message As ChatMessage, suggestedResponseType As Integer, args As String) As ChatResponse
 		  
+		  #pragma Unused message
+		  
 		  Dim username As String = NthField(args, " ", 1)
 		  Dim obj As ChannelUser = client.state.channelUsers.Lookup(username, Nil)
 		  
@@ -13,8 +15,15 @@ Inherits BotCommand
 		    
 		  Else
 		    
-		    username = Battlenet.onlineNameToAccountName(obj.username, client.state.product, True, "")
-		    Return New ChatResponse(suggestedResponseType, username + "'s ping is " + Format(obj.ping, "-#") + "ms")
+		    Dim udpSupport As Boolean
+		    Dim udpSupportString As String
+		    
+		    username   = Battlenet.onlineNameToAccountName(obj.username, client.state.product, True, "")
+		    udpSupport = (BitAnd(obj.flags, &H10) = 0)
+		    
+		    If udpSupport = False Then udpSupportString = " with no UDP support" Else udpSupportString = ""
+		    
+		    Return New ChatResponse(suggestedResponseType, username + "'s ping is " + Format(obj.ping, "-#") + "ms" + udpSupportString)
 		    
 		  End If
 		  
