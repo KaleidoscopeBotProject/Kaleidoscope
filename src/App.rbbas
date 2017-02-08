@@ -322,6 +322,36 @@ Inherits ConsoleApplication
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function SystemUptime() As Double
+		  
+		  // Returns system uptime in seconds, double-precision in case we have
+		  // a higher prevision available
+		  
+		  #If TargetWin32 = True Then
+		    
+		    Return Microseconds() / 1000000
+		    
+		  #ElseIf TargetLinux = True Then
+		    
+		    Soft Declare Function sysinfo Lib "libc" (sysinfo As Ptr) As Integer
+		    
+		    Dim mb As New MemoryBlock(64)
+		    If sysinfo(mb) <> 0 Then
+		      Return 0
+		    End If
+		    
+		    Return mb.Long(0) // See sysinfo struct on Linux (glibc sys/sysinfo.h)
+		    
+		  #Else
+		    
+		    Return Ticks() / 60 // Hope for the best
+		    
+		  #EndIf
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function TimeString(Period As UInt64, Fullstring As Boolean = False, ShortLegend As Boolean = False) As String
 		  
 		  Dim Buffer As String = ""

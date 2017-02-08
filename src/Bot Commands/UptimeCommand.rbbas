@@ -10,12 +10,12 @@ Inherits BotCommand
 		  
 		  // TODO: This works on Windows but we should double check Linux.
 		  
-		  Dim systemUptime As Double = Microseconds()
-		  Dim botUptime As Double = (systemUptime - App.uptimeConstant)
+		  Dim systemUptime As Double = Ceil(App.SystemUptime())
+		  Dim botUptime As Double = (Microseconds() - App.uptimeConstant) / 1000000
 		  
 		  Dim uptime As String = "System [" + _
-		  App.TimeString(Ceil(systemUptime / 1000000), False, True) + "] Bot [" + _
-		  App.TimeString(Ceil(botUptime / 1000000), False, True) + "]"
+		  App.TimeString(systemUptime, False, True) + "] Bot [" + _
+		  App.TimeString(botUptime, False, True) + "]"
 		  
 		  Return New ChatResponse(suggestedResponseType, uptime)
 		  
