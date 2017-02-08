@@ -8,29 +8,7 @@ Inherits BotCommand
 		  #pragma Unused message
 		  #pragma Unused args
 		  
-		  #If TargetLinux = True Then
-		    
-		    Dim kernelString As String = ""
-		    Dim sh As New Shell()
-		    
-		    // All but the node name (hostname)
-		    sh.Execute("uname -s -r -v -m -p -i -o")
-		    
-		    If sh.ErrorCode = 0 Then
-		      kernelString = ReplaceLineEndings(sh.Result, " ")
-		    Else
-		      kernelString = App.PlatformName()
-		    End If
-		    
-		    sh.Close()
-		    
-		    Return New ChatResponse(suggestedResponseType, kernelString)
-		    
-		  #Else
-		    
-		    Return New ChatResponse(suggestedResponseType, App.PlatformName())
-		    
-		  #EndIf
+		  Return New ChatResponse(suggestedResponseType, App.PlatformName() + " " + App.PlatformVersion())
 		  
 		End Function
 	#tag EndEvent

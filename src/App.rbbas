@@ -306,8 +306,80 @@ Inherits ConsoleApplication
 		    Return "Windows"
 		  #ElseIf TargetLinux Then
 		    Return "Linux"
-		  #Else
+		  #ElseIf TargetMacOS Then
 		    Return "Mac OS X"
+		  #Else
+		    Return "Unknown"
+		  #EndIf
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
+		Function PlatformVersion() As String
+		  
+		  #If TargetWin32 Then
+		    
+		    Soft Declare Function GetVersion Lib "Kernel32" () As UInt32
+		    
+		    Dim mb As New MemoryBlock(4)
+		    mb.UInt32Value(0) = GetVersion()
+		    
+		    Dim dwMajorVersion As Integer = mb.Int8Value(0)
+		    Dim dwMinorVersion As Integer = mb.Int8Value(1)
+		    Dim dwBuild        As Integer = mb.Int16Value(2)
+		    
+		    Dim dblVersion As Double = Val(Format(dwMajorVersion, "#") + "." + Format(dwMinorVersion, "#"))
+		    Dim strVersion As String = Format(dblVersion, "0.0####") + " Build " + Format(dwBuild, "000#")
+		    
+		    Select Case dblVersion
+		    Case 5.0
+		      Return "2000 (" + strVersion + ")"
+		    Case 5.1
+		      Return "XP (" + strVersion + ")"
+		    Case 5.2
+		      Return "Server 2003 (" + strVersion + ")"
+		    Case 6.0
+		      Return "Vista (" + strVersion + ")"
+		    Case 6.1
+		      Return "7 (" + strVersion + ")"
+		    Case 6.2
+		      Return "8 (" + strVersion + ")"
+		    Case 6.3
+		      Return "8.1 (" + strVersion + ")"
+		    Case 10.0
+		      Return "10 (" + strVersion + ")"
+		    Case Else
+		      Return strVersion
+		    End Select
+		    
+		  #ElseIf TargetLinux Then
+		    
+		    Dim kernelString As String = ""
+		    Dim sh As New Shell()
+		    
+		    // All but the node name (hostname)
+		    sh.Execute("uname -r -v -m -p -i -o")
+		    
+		    If sh.ErrorCode = 0 Then
+		      kernelString = ReplaceLineEndings(sh.Result, " ")
+		    Else
+		      kernelString = App.PlatformName()
+		    End If
+		    
+		    sh.Close()
+		    
+		    Return kernelString
+		    
+		  #ElseIf TargetMacOS Then
+		    
+		    // TODO
+		    Return ""
+		    
+		  #Else
+		    
+		    Return ""
+		    
 		  #EndIf
 		  
 		End Function
