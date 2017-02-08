@@ -8,8 +8,6 @@ Inherits BotCommand
 		  #pragma Unused message
 		  #pragma Unused args
 		  
-		  // TODO: This works on Windows but we should double check Linux.
-		  
 		  Dim systemUptime As Double = Ceil(App.SystemUptime())
 		  Dim botUptime As Double = Ceil((Microseconds() - App.uptimeConstant) / 1000000)
 		  
