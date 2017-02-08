@@ -60,6 +60,12 @@ Inherits ConsoleApplication
 		  
 		  args.Remove(0)
 		  
+		  #If TargetLinux = True Then
+		    If UBound(args) >= 0 And Len(args(0)) = 0 Then
+		      args.Remove(0)
+		    End If
+		  #EndIf
+		  
 		  Dim index As Integer
 		  Dim upperbound As Integer = UBound(args)
 		  
@@ -98,7 +104,11 @@ Inherits ConsoleApplication
 		Protected Sub ParseConfig()
 		  
 		  If Me.configFile = Nil Then
-		    Me.configFile = SpecialFolder.CurrentWorkingDirectory.Child("kaleidoscope.conf")
+		    #If DebugBuild = False Then
+		      Me.configFile = SpecialFolder.CurrentWorkingDirectory.Child("kaleidoscope.conf")
+		    #Else
+		      Me.configFile = SpecialFolder.CurrentWorkingDirectory.Parent.Child("kaleidoscope.conf")
+		    #EndIf
 		  End If
 		  
 		  If Me.configFile = Nil Then
@@ -505,6 +515,11 @@ Inherits ConsoleApplication
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="uptimeConstant"
+			Group="Behavior"
+			Type="Double"
 		#tag EndViewProperty
 	#tag EndViewBehavior
 End Class
