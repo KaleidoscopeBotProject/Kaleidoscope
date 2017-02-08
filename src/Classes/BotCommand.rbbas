@@ -94,6 +94,7 @@ Protected Class BotCommand
 		  BotCommand.registered.Append(New SayCommand())
 		  BotCommand.registered.Append(New TimeCommand())
 		  BotCommand.registered.Append(New TriggerCommand())
+		  BotCommand.registered.Append(New UptimeCommand())
 		  BotCommand.registered.Append(New VersionCommand())
 		  
 		End Sub

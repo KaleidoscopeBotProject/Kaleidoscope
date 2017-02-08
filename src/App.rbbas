@@ -4,6 +4,7 @@ Inherits ConsoleApplication
 	#tag Event
 		Function Run(args() as String) As Integer
 		  
+		  Me.uptimeConstant = Microseconds()
 		  Me.exitCode = 0
 		  
 		  Me.ParseArgs(args)
@@ -309,6 +310,137 @@ Inherits ConsoleApplication
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function TimeString(Period As UInt64, Fullstring As Boolean = False, ShortLegend As Boolean = False) As String
+		  
+		  Dim Buffer As String = ""
+		  Dim Years, Days, Hours, Minutes, Seconds As UInt64
+		  Dim LYear, LDay, LHour, LMinute, LSecond As String
+		  
+		  If ShortLegend = False Then
+		    LYear = "year"
+		    LDay = "day"
+		    LHour = "hour"
+		    LMinute = "minute"
+		    LSecond = "second"
+		  Else
+		    LYear = "y"
+		    LDay = "d"
+		    LHour = "h"
+		    LMinute = "m"
+		    LSecond = "s"
+		  End If
+		  
+		  // BEGIN CONVERSIONS
+		  
+		  // Period is in seconds:
+		  Seconds = Period
+		  
+		  // 60 seconds in 1 minute:
+		  Minutes = Seconds \ 60
+		  Seconds = Seconds Mod 60
+		  
+		  // 60 minutes in 1 hour:
+		  Hours = Minutes \ 60
+		  Minutes = Minutes Mod 60
+		  
+		  // 24 hours in 1 day:
+		  Days = Hours \ 24
+		  Hours = Hours Mod 24
+		  
+		  // 365 days in 1 year:
+		  Years = Days \ 365
+		  Days = Days Mod 365
+		  
+		  // END CONVERSIONS
+		  
+		  If Fullstring = True Then
+		    // Return something like "5 days, 0 hours, 1 minute, 13 seconds"
+		    If ShortLegend = False Then
+		      Buffer = Buffer + Str(Years) + " " + LYear
+		      If Years <> 1 Then Buffer = Buffer + "s"
+		      Buffer = Buffer + Str(Days) + " " + LDay
+		      If Days <> 1 Then Buffer = Buffer + "s"
+		      Buffer = Buffer + ", " + Str(Hours) + " " + LHour
+		      If Hours <> 1 Then Buffer = Buffer + "s"
+		      Buffer = Buffer + ", " + Str(Minutes) + " " + LMinute
+		      If Minutes <> 1 Then Buffer = Buffer + "s"
+		      Buffer = Buffer + ", " + Str(Seconds) + " " + LSecond
+		      If Seconds <> 1 Then Buffer = Buffer + "s"
+		    Else
+		      Buffer = Buffer + Str(Years) + LYear + " " + Str(Days) + LDay + " " _
+		      + Str(Hours) + LHour + " " + Str(Minutes) + LMinute + " " _
+		      + Str(Seconds) + LSecond
+		    End If
+		    Return Buffer
+		  End If
+		  
+		  // Return something like "5 days, 1 minute, 13 seconds"
+		  
+		  If Years <> 0 Then
+		    If ShortLegend = False Then
+		      Buffer = Buffer + ", " + Str(Years) + " " + LYear
+		      If Years <> 1 Then Buffer = Buffer + "s"
+		    Else
+		      Buffer = Buffer + Str(Years) + LYear + " "
+		    End If
+		  End If
+		  
+		  If Days <> 0 Then
+		    If ShortLegend = False Then
+		      Buffer = Buffer + ", " + Str(Days) + " " + LDay
+		      If Days <> 1 Then Buffer = Buffer + "s"
+		    Else
+		      Buffer = Buffer + Str(Days) + LDay + " "
+		    End If
+		  End If
+		  
+		  If Hours <> 0 Then
+		    If ShortLegend = False Then
+		      Buffer = Buffer + ", " + Str(Hours) + " " + LHour
+		      If Hours <> 1 Then Buffer = Buffer + "s"
+		    Else
+		      Buffer = Buffer + Str(Hours) + LHour + " "
+		    End If
+		  End If
+		  
+		  If Minutes <> 0 Then
+		    If ShortLegend = False Then
+		      Buffer = Buffer + ", " + Str(Minutes) + " " + LMinute
+		      If Minutes <> 1 Then Buffer = Buffer + "s"
+		    Else
+		      Buffer = Buffer + Str(Minutes) + LMinute + " "
+		    End If
+		  End If
+		  
+		  If Seconds <> 0 Then
+		    If ShortLegend = False Then
+		      Buffer = Buffer + ", " + Str(Seconds) + " " + LSecond
+		      If Seconds <> 1 Then Buffer = Buffer + "s"
+		    Else
+		      Buffer = Buffer + Str(Seconds) + LSecond + " "
+		    End If
+		  End If
+		  
+		  If Seconds = 0 And Minutes = 0 And Hours = 0 And Days = 0 And Years = 0 Then
+		    If ShortLegend = False Then
+		      Buffer = ", 0 seconds"
+		    Else
+		      Buffer = "0s"
+		    End If
+		  End If
+		  
+		  If Left(Buffer, 2) = ", " Then
+		    Return Mid(Buffer, 3)
+		  ElseIf Right(Buffer, 1) = " " Then
+		    Return Mid(Buffer, 1, Len(Buffer) - 1)
+		  Else
+		    Return Buffer
+		  End If
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function VersionString() As String
 		  
 		  Dim verstr As String
@@ -348,6 +480,10 @@ Inherits ConsoleApplication
 
 	#tag Property, Flags = &h0
 		trigger As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		uptimeConstant As Double
 	#tag EndProperty
 
 
