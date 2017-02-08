@@ -11,6 +11,7 @@ Protected Class Configuration
 		  Me.gameKey1     = ""
 		  Me.gameKey2     = ""
 		  Me.gameKeyOwner = "Kaleidoscope"
+		  Me.homeChannel  = ""
 		  Me.password     = ""
 		  Me.platform     = Battlenet.Platform_IX86
 		  Me.product      = 0
@@ -53,6 +54,10 @@ Protected Class Configuration
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
+		homeChannel As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
 		password As String
 	#tag EndProperty
 
@@ -90,6 +95,7 @@ Protected Class Configuration
 			Name="email"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="gameKey1"

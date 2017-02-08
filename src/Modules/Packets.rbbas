@@ -467,7 +467,13 @@ Protected Module Packets
 		  stderr.WriteLine("BNET: Account login success.")
 		  
 		  Dim flags As UInt32, channel As String
-		  Battlenet.getDefaultChannel(client.state.product, flags, channel)
+		  
+		  If Len(client.config.homeChannel) = 0 Then
+		    Battlenet.getDefaultChannel(client.state.product, flags, channel)
+		  Else
+		    flags   = Packets.FLAG_FORCEJOIN
+		    channel = client.config.homeChannel
+		  End If
 		  
 		  client.socBNET.Write(_
 		  Packets.CreateBNET_SID_ENTERCHAT(client.state.username, "") + _

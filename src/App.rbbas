@@ -252,6 +252,8 @@ Inherits ConsoleApplication
 		          client.config.gameKey2 = Battlenet.strToGameKey(val)
 		        Case "gameKeyOwner"
 		          client.config.gameKeyOwner = val
+		        Case "homeChannel"
+		          client.config.homeChannel = val
 		        Case "password"
 		          client.config.password = val
 		        Case "platform"
