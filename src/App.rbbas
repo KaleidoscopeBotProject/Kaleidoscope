@@ -386,6 +386,28 @@ Inherits ConsoleApplication
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function PrefixLines(value As String, prefix As String) As String
+		  
+		  Dim lines() As String
+		  Dim i, j As Integer
+		  
+		  lines = Split(ReplaceLineEndings(value, EndOfLine), EndOfLine)
+		  i     = 0
+		  j     = UBound(lines)
+		  
+		  If j = -1 Then Return prefix + value
+		  
+		  While i <= j
+		    lines(i) = prefix + lines(i)
+		    i = i + 1
+		  Wend
+		  
+		  Return Join(lines, EndOfLine)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function ProjectName() As String
 		  
 		  Return "Kaleidoscope"

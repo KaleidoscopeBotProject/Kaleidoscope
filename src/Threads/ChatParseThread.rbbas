@@ -16,6 +16,8 @@ Inherits Thread
 		    acl = Nil
 		    res = Nil
 		    
+		    // Handle state information:
+		    
 		    Select Case msg.eventId
 		    Case Packets.EID_USERSHOW, Packets.EID_USERJOIN, Packets.EID_USERUPDATE
 		      
@@ -40,6 +42,14 @@ Inherits Thread
 		      acl       = Me.client.getAcl(msg.username)
 		      responses = BotCommand.handleCommand(Me.client, acl, msg)
 		      
+		    Case Packets.EID_BROADCAST
+		      
+		      If msg.username <> "Battle.net" And Len(msg.username) > 0 Then
+		        stdout.WriteLine(App.PrefixLines(msg.text, "BNET Broadcast from " + msg.username + ": "))
+		      Else
+		        stdout.WriteLine(App.PrefixLines(msg.text, "BNET Broadcast: "))
+		      End If
+		      
 		    Case Packets.EID_CHANNEL
 		      
 		      Me.client.state.channel      = msg.text
@@ -58,6 +68,14 @@ Inherits Thread
 		    Case Packets.EID_CHANNEL_RESTRICTED
 		      
 		      stdout.WriteLine("BNET: Channel " + msg.text + " is restricted")
+		      
+		    Case Packets.EID_INFO
+		      
+		      stdout.WriteLine(App.PrefixLines(msg.text, "BNET Info: "))
+		      
+		    Case Packets.EID_ERROR
+		      
+		      stdout.WriteLine(App.PrefixLines(msg.text, "BNET Error: "))
 		      
 		    End Select
 		    
