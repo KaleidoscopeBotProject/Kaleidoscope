@@ -119,7 +119,7 @@ Protected Module Battlenet
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
-		Protected Function GreetBot(client As BNETClient, message As ChatMessage) As ChatResponse
+		Protected Function GreetBot(client As BNETClient, message As ChatMessage, username As String) As ChatResponse
 		  
 		  If client = Nil Then Return Nil
 		  
@@ -127,8 +127,8 @@ Protected Module Battlenet
 		  
 		  If Len(buffer) = 0 Then Return Nil
 		  
-		  Dim user As ChannelUser = client.state.channelUsers.Lookup(message.username, Nil)
-		  Dim acl As UserAccess = client.getAcl(message.username)
+		  Dim user As ChannelUser = client.state.channelUsers.Lookup(username, Nil)
+		  Dim acl As UserAccess = client.getAcl(username)
 		  
 		  If client.config.greetAclExclusive = True And acl = Nil Then Return Nil
 		  
