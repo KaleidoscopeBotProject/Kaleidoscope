@@ -10,6 +10,7 @@ Protected Class BNETState
 		  Me.channelUsers          = New Dictionary()
 		  Me.client                = client
 		  Me.clientToken           = Battlenet.getClientToken()
+		  Me.connectedTime         = 0
 		  Me.email                 = client.config.email
 		  Me.gameKey1              = client.config.gameKey1
 		  Me.gameKey2              = client.config.gameKey2
@@ -92,6 +93,10 @@ Protected Class BNETState
 
 	#tag Property, Flags = &h0
 		clientToken As UInt32
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		connectedTime As Double
 	#tag EndProperty
 
 	#tag Property, Flags = &h0

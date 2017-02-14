@@ -8,12 +8,16 @@ Inherits BotCommand
 		  #pragma Unused message
 		  #pragma Unused args
 		  
+		  Dim execConst As Double = Microseconds()
+		  
 		  Dim systemUptime As Double = Ceil(App.SystemUptime())
-		  Dim botUptime As Double = Ceil((Microseconds() - App.uptimeConstant) / 1000000)
+		  Dim botUptime As Double = Ceil((execConst - App.uptimeConstant) / 1000000)
+		  Dim connectionUptime As Double = Ceil((execConst - client.state.connectedTime) / 1000000)
 		  
 		  Dim uptime As String = "System [" + _
 		  App.TimeString(systemUptime, False, True) + "] Bot [" + _
-		  App.TimeString(botUptime, False, True) + "]"
+		  App.TimeString(botUptime, False, True) + "] Connection [" + _
+		  App.TimeString(connectionUptime, False, True) + "]"
 		  
 		  Return New ChatResponse(suggestedResponseType, uptime)
 		  

@@ -10,6 +10,8 @@ Inherits TCPSocket
 		    Me.client.state = New BNETState(Me.client)
 		  End If
 		  
+		  Me.client.state.connectedTime = Microseconds()
+		  
 		  Me.Write(ChrB(&H01))
 		  
 		  If Me.client.state.versionByte <> &H00 Then
