@@ -87,13 +87,16 @@ Protected Class BotCommand
 	#tag Method, Flags = &h0
 		 Shared Sub registerAll()
 		  
+		  BotCommand.registered.Append(New BanCommand())
 		  BotCommand.registered.Append(New JoinCommand())
+		  BotCommand.registered.Append(New KickCommand())
 		  BotCommand.registered.Append(New OSCommand())
 		  BotCommand.registered.Append(New PingCommand())
 		  BotCommand.registered.Append(New PingMeCommand())
 		  BotCommand.registered.Append(New SayCommand())
 		  BotCommand.registered.Append(New TimeCommand())
 		  BotCommand.registered.Append(New TriggerCommand())
+		  BotCommand.registered.Append(New UnbanCommand())
 		  BotCommand.registered.Append(New UptimeCommand())
 		  BotCommand.registered.Append(New VersionCommand())
 		  

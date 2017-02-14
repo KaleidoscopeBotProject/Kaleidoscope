@@ -1,7 +1,9 @@
 Type=Console
 RBProjectVersion=2012.021
 MinIDEVersion=20070100
+Class=BanCommand;src/Bot Commands/BanCommand.rbbas;&h6F7B17FF;&h1B910FFF;false
 Class=JoinCommand;src/Bot Commands/JoinCommand.rbbas;&h7C32EFFF;&h1B910FFF;false
+Class=KickCommand;src/Bot Commands/KickCommand.rbbas;&h2B6BD7FF;&h1B910FFF;false
 Class=OSCommand;src/Bot Commands/OSCommand.rbbas;&h243AB7FF;&h1B910FFF;false
 Class=PingCommand;src/Bot Commands/PingCommand.rbbas;&h65E5FFF;&h1B910FFF;false
 Class=PingMeCommand;src/Bot Commands/PingMeCommand.rbbas;&h621B97FF;&h1B910FFF;false
@@ -28,6 +30,7 @@ Class=PacketTimer;src/Timers/PacketTimer.rbbas;&h90677FF;&h200CA7FF;false
 Class=UserAccess;src/Classes/UserAccess.rbbas;&h144CA7FF;&h3B73B7FF;false
 Class=TimeCommand;src/Bot Commands/TimeCommand.rbbas;&h46D14FFF;&h1B910FFF;false
 Class=TriggerCommand;src/Bot Commands/TriggerCommand.rbbas;&h6B1CEFFF;&h1B910FFF;false
+Class=UnbanCommand;src/Bot Commands/UnbanCommand.rbbas;&h3D8F7FF;&h1B910FFF;false
 Class=UptimeCommand;src/Bot Commands/UptimeCommand.rbbas;&h2BFABFFF;&h1B910FFF;false
 Class=VersionCommand;src/Bot Commands/VersionCommand.rbbas;&h4D0787FF;&h1B910FFF;false
 Folder=src;src;&h15393FFF;&h0;false
