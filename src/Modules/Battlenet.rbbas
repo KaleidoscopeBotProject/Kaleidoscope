@@ -249,6 +249,8 @@ Protected Module Battlenet
 	#tag Method, Flags = &h1
 		Protected Function onlineNameToAccountName(onlineName As String, ourProduct As UInt32, ignoreRealm As Boolean, supplementalRealms As String) As String
 		  
+		  Dim realmChr As String = "#"
+		  
 		  Dim accountName As String = onlineName
 		  
 		  Dim d2Asterisk As Integer = InStr(accountName, "*")
@@ -263,21 +265,21 @@ Protected Module Battlenet
 		    Dim cursor As Integer
 		    
 		    If Battlenet.isWarcraft3(ourProduct) Then
-		      realms.Append("@USWest")
-		      realms.Append("@USEast")
-		      realms.Append("@Asia")
-		      realms.Append("@Europe")
+		      realms.Append(realmChr + "USWest")
+		      realms.Append(realmChr + "USEast")
+		      realms.Append(realmChr + "Asia")
+		      realms.Append(realmChr + "Europe")
 		    Else
-		      realms.Append("@Lordaeron")
-		      realms.Append("@Azeroth")
-		      realms.Append("@Kalimdor")
-		      realms.Append("@Northrend")
+		      realms.Append(realmChr + "Lordaeron")
+		      realms.Append(realmChr + "Azeroth")
+		      realms.Append(realmChr + "Kalimdor")
+		      realms.Append(realmChr + "Northrend")
 		    End If
 		    
 		    extraRealms = Split(supplementalRealms, ",")
 		    
 		    For Each realm As String In extraRealms
-		      If Left(realm, 1) <> "@" Then realms.Append("@" + realm) Else realms.Append(realm)
+		      If Left(realm, Len(realmChr)) <> realmChr Then realms.Append(realmChr + realm) Else realms.Append(realm)
 		    Next
 		    
 		    Do Until UBound(realms) < 0
