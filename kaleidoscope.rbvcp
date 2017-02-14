@@ -2,6 +2,7 @@ Type=Console
 RBProjectVersion=2012.021
 MinIDEVersion=20070100
 Class=BanCommand;src/Bot Commands/BanCommand.rbbas;&h6F7B17FF;&h1B910FFF;false
+Class=HomeCommand;src/Bot Commands/HomeCommand.rbbas;&h6561CFFF;&h1B910FFF;false
 Class=JoinCommand;src/Bot Commands/JoinCommand.rbbas;&h7C32EFFF;&h1B910FFF;false
 Class=KickCommand;src/Bot Commands/KickCommand.rbbas;&h2B6BD7FF;&h1B910FFF;false
 Class=OSCommand;src/Bot Commands/OSCommand.rbbas;&h243AB7FF;&h1B910FFF;false

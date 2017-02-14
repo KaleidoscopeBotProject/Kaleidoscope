@@ -88,6 +88,7 @@ Protected Class BotCommand
 		 Shared Sub registerAll()
 		  
 		  BotCommand.registered.Append(New BanCommand())
+		  BotCommand.registered.Append(New HomeCommand())
 		  BotCommand.registered.Append(New JoinCommand())
 		  BotCommand.registered.Append(New KickCommand())
 		  BotCommand.registered.Append(New OSCommand())
