@@ -471,7 +471,7 @@ Protected Module Packets
 		  If Len(client.config.homeChannel) = 0 Then
 		    Battlenet.getDefaultChannel(client.state.product, flags, channel)
 		  Else
-		    flags   = Packets.FLAG_FORCEJOIN
+		    flags   = Packets.FLAG_NOCREATE
 		    channel = client.config.homeChannel
 		  End If
 		  
