@@ -43,7 +43,7 @@ Inherits TCPSocket
 	#tag Event
 		Sub Error()
 		  
-		  If Me.client.state.versionAndKeyPassed = False Then
+		  If Me.client = Nil Or Me.client.state = Nil Or Me.client.state.versionAndKeyPassed = False Then
 		    stdout.WriteLine("BNLS: Socket error #" + Format(Me.LastErrorCode, "-#") + "!")
 		  Else
 		    stderr.WriteLine("BNLS: Socket error #" + Format(Me.LastErrorCode, "-#") + ", service no longer required.")
