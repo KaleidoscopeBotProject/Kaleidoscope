@@ -416,6 +416,23 @@ Inherits ConsoleApplication
 	#tag EndMethod
 
 	#tag Method, Flags = &h0
+		Function RandomString(length As Integer, mask As String) As String
+		  
+		  Dim buf As String
+		  Dim maskLen As Integer
+		  
+		  maskLen = Len(mask)
+		  
+		  While Len(buf) < length
+		    buf = buf + Mid(mask, 1 + Floor(Rnd() * maskLen), 1)
+		  Wend
+		  
+		  Return buf
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h0
 		Function SystemUptime() As Double
 		  
 		  // Returns system uptime in seconds, double-precision in case we have
@@ -621,6 +638,10 @@ Inherits ConsoleApplication
 	#tag Property, Flags = &h0
 		uptimeConstant As Double
 	#tag EndProperty
+
+
+	#tag Constant, Name = SIGTERM, Type = Double, Dynamic = False, Default = \"15", Scope = Public
+	#tag EndConstant
 
 
 	#tag ViewBehavior
