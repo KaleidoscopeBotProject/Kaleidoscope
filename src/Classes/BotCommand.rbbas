@@ -94,6 +94,7 @@ Protected Class BotCommand
 		  BotCommand.registered.Append(New PingCommand())
 		  BotCommand.registered.Append(New PingMeCommand())
 		  BotCommand.registered.Append(New QuitCommand())
+		  BotCommand.registered.Append(New ReconnectCommand())
 		  BotCommand.registered.Append(New SayCommand())
 		  BotCommand.registered.Append(New TimeCommand())
 		  BotCommand.registered.Append(New TriggerCommand())

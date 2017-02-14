@@ -79,6 +79,8 @@ Inherits Thread
 		      
 		    End Select
 		    
+		    If Me.client = Nil Or Me.client.socBNET = Nil Or Me.client.socBNET.IsConnected = False Then Continue Do
+		    
 		    If responses <> Nil Then
 		      Do Until UBound(responses) < 0
 		        

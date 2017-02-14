@@ -21,6 +21,7 @@ Protected Class BNETState
 		  Me.password              = client.config.password
 		  Me.platform              = client.config.platform
 		  Me.product               = client.config.product
+		  Me.reconnecting          = False
 		  Me.serverSignature       = ""
 		  Me.serverToken           = 0
 		  Me.statstring            = ""
@@ -137,6 +138,10 @@ Protected Class BNETState
 
 	#tag Property, Flags = &h0
 		product As UInt32
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		reconnecting As Boolean
 	#tag EndProperty
 
 	#tag Property, Flags = &h0

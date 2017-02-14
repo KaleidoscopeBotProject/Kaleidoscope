@@ -58,7 +58,17 @@ Inherits TCPSocket
 		  
 		  stdout.WriteLine("BNET: Socket error #" + Format(Me.LastErrorCode, "-#") + "!")
 		  
+		  Me.client.state.bnetReadBuffer = Nil
+		  ReDim Me.client.chatParser.messages(-1)
+		  
+		  Dim bReconnect As Boolean = False
+		  If Me.client.state <> Nil Then bReconnect = Me.client.state.reconnecting
+		  
 		  Me.client.state = Nil
+		  
+		  If bReconnect = True Then
+		    Me.client.Connect()
+		  End If
 		  
 		End Sub
 	#tag EndEvent
