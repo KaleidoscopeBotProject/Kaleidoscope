@@ -119,6 +119,42 @@ Protected Module Battlenet
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function GreetBot(client As BNETClient, message As ChatMessage) As ChatResponse
+		  
+		  If client = Nil Then Return Nil
+		  
+		  Dim buffer As String = client.config.greetMessage
+		  
+		  If Len(buffer) = 0 Then Return Nil
+		  
+		  Dim user As ChannelUser = client.state.channelUsers.Lookup(message.username, Nil)
+		  Dim acl As UserAccess = client.getAcl(message.username)
+		  
+		  If client.config.greetAclExclusive = True And acl = Nil Then Return Nil
+		  
+		  Dim oTimestamp As New Date()
+		  Dim timestamp As String = oTimestamp.AbbreviatedDate + " " + oTimestamp.ShortTime
+		  
+		  buffer = ReplaceAll(buffer, "%{user}", message.username)
+		  buffer = ReplaceAll(buffer, "%{ping}", Format(message.ping, "-#"))
+		  If user = Nil Then
+		    buffer = ReplaceAll(buffer, "%{game}", "(null)")
+		  Else
+		    buffer = ReplaceAll(buffer, "%{game}", Battlenet.productToStr(Battlenet.strToProduct(MidB(user.metadata, 1, 4)), True))
+		  End If
+		  If client.state = Nil Or Len(client.state.channel) = 0 Then
+		    buffer = ReplaceAll(buffer, "%{channel}", "(null)")
+		  Else
+		    buffer = ReplaceAll(buffer, "%{channel}", client.state.channel)
+		  End If
+		  buffer = ReplaceAll(buffer, "%{time}", timestamp)
+		  
+		  Return New ChatResponse(ChatResponse.TYPE_TALK, buffer)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function isDiablo2(product As UInt32) As Boolean
 		  
 		  Select Case product
@@ -345,6 +381,43 @@ Protected Module Battlenet
 		    Return 12
 		  Case Else
 		    Raise New BattlenetException("Unable to translate value '" + Format(value, "-#") + "' to BNLS product id")
+		  End Select
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function productToStr(value As UInt32, fullName As Boolean) As String
+		  
+		  Select Case value
+		  Case Battlenet.Product_CHAT
+		    Return "Telnet"
+		  Case Battlenet.Product_D2DV
+		    Return "Diablo II"
+		  Case Battlenet.Product_D2XP
+		    If fullName = False Then Return "Lord of Destruction" Else Return "Diablo II Lord of Destruction"
+		  Case Battlenet.Product_DRTL
+		    Return "Diablo"
+		  Case Battlenet.Product_DSHR
+		    Return "Diablo Shareware"
+		  Case Battlenet.Product_JSTR
+		    Return "Starcraft Japanese"
+		  Case Battlenet.Product_SEXP
+		    If fullName = False Then Return "Brood War" Else Return "Starcraft Broodwar"
+		  Case Battlenet.Product_SSHR
+		    Return "Starcraft Shareware"
+		  Case Battlenet.Product_STAR
+		    Return "Starcraft"
+		  Case Battlenet.Product_W2BN
+		    Return "Warcraft II"
+		  Case Battlenet.Product_W3DM
+		    Return "Warcraft III Demo"
+		  Case Battlenet.Product_W3XP
+		    Return "Frozen Throne"
+		  Case Battlenet.Product_WAR3
+		    Return "Warcraft III"
+		  Case Else
+		    Raise New BattlenetException("Unable to translate value '" + Format(value, "-#") + "' to product string")
 		  End Select
 		  
 		End Function

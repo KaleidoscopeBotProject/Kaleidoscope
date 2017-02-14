@@ -262,6 +262,12 @@ Inherits ConsoleApplication
 		          client.config.gameKey2 = Battlenet.strToGameKey(val)
 		        Case "gameKeyOwner"
 		          client.config.gameKeyOwner = val
+		        Case "greetAclExclusive"
+		          client.config.greetAclExclusive = Battlenet.strToBool(val)
+		        Case "greetEnabled"
+		          client.config.greetEnabled = Battlenet.strToBool(val)
+		        Case "greetMessage"
+		          client.config.greetMessage = val
 		        Case "homeChannel"
 		          client.config.homeChannel = val
 		        Case "password"

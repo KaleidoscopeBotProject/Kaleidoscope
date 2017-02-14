@@ -3,19 +3,22 @@ Protected Class Configuration
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  
-		  Me.bnetHost     = "useast.battle.net"
-		  Me.bnetPort     = 6112
-		  Me.bnlsHost     = "bnls.bnetdocs.org"
-		  Me.bnlsPort     = 9367
-		  Me.email        = ""
-		  Me.gameKey1     = ""
-		  Me.gameKey2     = ""
-		  Me.gameKeyOwner = "Kaleidoscope"
-		  Me.homeChannel  = ""
-		  Me.password     = ""
-		  Me.platform     = Battlenet.Platform_IX86
-		  Me.product      = 0
-		  Me.username     = ""
+		  Me.bnetHost          = "useast.battle.net"
+		  Me.bnetPort          = 6112
+		  Me.bnlsHost          = "bnls.bnetdocs.org"
+		  Me.bnlsPort          = 9367
+		  Me.email             = ""
+		  Me.gameKey1          = ""
+		  Me.gameKey2          = ""
+		  Me.gameKeyOwner      = "Kaleidoscope"
+		  Me.greetAclExclusive = False
+		  Me.greetEnabled      = False
+		  Me.greetMessage      = ""
+		  Me.homeChannel       = ""
+		  Me.password          = ""
+		  Me.platform          = Battlenet.Platform_IX86
+		  Me.product           = 0
+		  Me.username          = ""
 		  
 		End Sub
 	#tag EndMethod
@@ -51,6 +54,18 @@ Protected Class Configuration
 
 	#tag Property, Flags = &h0
 		gameKeyOwner As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		greetAclExclusive As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		greetEnabled As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		greetMessage As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -114,6 +129,11 @@ Protected Class Configuration
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="homeChannel"
+			Group="Behavior"
+			Type="String"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"

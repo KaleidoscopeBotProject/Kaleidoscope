@@ -16,8 +16,6 @@ Inherits Thread
 		    acl = Nil
 		    res = Nil
 		    
-		    // Handle state information:
-		    
 		    Select Case msg.eventId
 		    Case Packets.EID_USERSHOW, Packets.EID_USERJOIN, Packets.EID_USERUPDATE
 		      
@@ -26,6 +24,11 @@ Inherits Thread
 		      Me.client.state.channelUsers.Value(username) = New ChannelUser(msg.username, msg.text, msg.ping, msg.flags)
 		      
 		      stdout.WriteLine("BNET: " + username + " joined")
+		      
+		      If msg.eventId = Packets.EID_USERJOIN And Me.client.config.greetEnabled = True Then
+		        Dim greetMsg As ChatResponse = Battlenet.GreetBot(Me.client, msg)
+		        If greetMsg <> Nil Then responses.Append(greetMsg)
+		      End If
 		      
 		    Case Packets.EID_USERLEAVE
 		      
