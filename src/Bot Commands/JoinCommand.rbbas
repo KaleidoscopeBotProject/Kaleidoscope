@@ -4,9 +4,9 @@ Inherits BotCommand
 	#tag Event
 		Function Action(client As BNETClient, message As ChatMessage, suggestedResponseType As Integer, args As String) As ChatResponse
 		  
-		  #pragma Unused client
-		  #pragma Unused message
 		  #pragma Unused suggestedResponseType
+		  
+		  client.state.joinCommandState = New Pair(message.username, args)
 		  
 		  Return New ChatResponse(ChatResponse.TYPE_PACKET, Packets.CreateBNET_SID_JOINCHANNEL(Packets.FLAG_NOCREATE, args))
 		  

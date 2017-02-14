@@ -62,6 +62,7 @@ Protected Class BotCommand
 		    For Each oCmd As BotCommand In BotCommand.registered
 		      If oCmd.matchCheck(cmd, trigger) Then
 		        If oCmd.aclAdmin And Not acl.aclAdmin Then Continue For
+		        client.state.lastCommand = oCmd
 		        response = oCmd.execute(client, message, suggestedResponseType, args)
 		        Exit For
 		      End If

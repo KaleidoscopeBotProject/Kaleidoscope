@@ -15,6 +15,8 @@ Protected Class BNETState
 		  Me.gameKey1              = client.config.gameKey1
 		  Me.gameKey2              = client.config.gameKey2
 		  Me.gameKeyOwner          = client.config.gameKeyOwner
+		  Me.joinCommandState      = Nil
+		  Me.lastCommand           = Nil
 		  Me.localIP               = Battlenet.getLocalIP()
 		  Me.logonType             = 0
 		  Me.nullTimer             = new PacketTimer()
@@ -114,6 +116,14 @@ Protected Class BNETState
 
 	#tag Property, Flags = &h0
 		gameKeyOwner As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		joinCommandState As Pair
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		lastCommand As BotCommand
 	#tag EndProperty
 
 	#tag Property, Flags = &h0

@@ -65,9 +65,21 @@ Inherits Thread
 		      
 		      stdout.WriteLine("BNET: Channel " + msg.text + " is full")
 		      
+		      If Me.client.state.joinCommandState <> Nil And _
+		        Me.client.state.joinCommandState.Right = msg.text Then
+		        responses.Append(New ChatResponse(ChatResponse.TYPE_TALK, _
+		        "/w " + Me.client.state.joinCommandState.Left + " " + msg.text + " is full"))
+		      End If
+		      
 		    Case Packets.EID_CHANNEL_RESTRICTED
 		      
 		      stdout.WriteLine("BNET: Channel " + msg.text + " is restricted")
+		      
+		      If Me.client.state.joinCommandState <> Nil And _
+		        Me.client.state.joinCommandState.Right = msg.text Then
+		        responses.Append(New ChatResponse(ChatResponse.TYPE_TALK, _
+		        "/w " + Me.client.state.joinCommandState.Left + " " + msg.text + " is restricted"))
+		      End If
 		      
 		    Case Packets.EID_INFO
 		      
