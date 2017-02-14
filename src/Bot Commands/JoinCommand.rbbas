@@ -8,7 +8,7 @@ Inherits BotCommand
 		  #pragma Unused message
 		  #pragma Unused suggestedResponseType
 		  
-		  Return New ChatResponse(ChatResponse.TYPE_PACKET, Packets.CreateBNET_SID_JOINCHANNEL(&H02, args))
+		  Return New ChatResponse(ChatResponse.TYPE_PACKET, Packets.CreateBNET_SID_JOINCHANNEL(Packets.FLAG_NOCREATE, args))
 		  
 		End Function
 	#tag EndEvent
