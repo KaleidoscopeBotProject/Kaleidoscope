@@ -77,6 +77,10 @@ Protected Class Configuration
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
+		passwordNew As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
 		platform As UInt32
 	#tag EndProperty
 
@@ -131,9 +135,25 @@ Protected Class Configuration
 			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="greetAclExclusive"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="greetEnabled"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="greetMessage"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="homeChannel"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"

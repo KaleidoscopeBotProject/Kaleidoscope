@@ -359,8 +359,12 @@ Protected Module Packets
 		  stderr.WriteLine("BNET: Version and key challenge passed.")
 		  
 		  // Battlenet.resetPassword(client)
-		  // Battlenet.changePassword(client)
-		  Battlenet.login(client)
+		  
+		  If Len(client.state.passwordNew) > 0 And StrComp(client.state.password, client.state.passwordNew, 0) <> 0 Then
+		    Battlenet.changePassword(client)
+		  Else
+		    Battlenet.login(client)
+		  End If
 		  
 		End Sub
 	#tag EndMethod
@@ -416,6 +420,8 @@ Protected Module Packets
 		  End If
 		  
 		  stderr.WriteLine("BNET: Password was successfully changed.")
+		  
+		  Battlenet.login(client)
 		  
 		End Sub
 	#tag EndMethod

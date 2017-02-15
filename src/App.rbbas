@@ -272,6 +272,8 @@ Inherits ConsoleApplication
 		          client.config.homeChannel = val
 		        Case "password"
 		          client.config.password = val
+		        Case "passwordNew"
+		          client.config.passwordNew = val
 		        Case "platform"
 		          client.config.platform = Battlenet.strToPlatform(val)
 		        Case "product"

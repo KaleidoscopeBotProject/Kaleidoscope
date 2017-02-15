@@ -21,7 +21,7 @@ Protected Class BNETState
 		  Me.logonType             = 0
 		  Me.nullTimer             = new PacketTimer()
 		  Me.password              = client.config.password
-		  Me.passwordNew           = client.config.password
+		  Me.passwordNew           = client.config.passwordNew
 		  Me.platform              = client.config.platform
 		  Me.product               = client.config.product
 		  Me.reconnecting          = False
