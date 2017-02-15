@@ -408,6 +408,10 @@ Protected Module Packets
 		  
 		  Select Case status
 		  Case STATUS_SUCCESS
+		    client.config.password    = client.config.passwordNew
+		    client.config.passwordNew = ""
+		    client.state.password     = client.state.passwordNew
+		    client.state.passwordNew  = ""
 		  Case STATUS_FAILURE
 		    stdout.WriteLine("BNET: Failed to change password.")
 		  Case Else
