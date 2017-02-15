@@ -67,6 +67,22 @@ Protected Module Packets
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function CreateBNET_SID_CHANGEPASSWORD(clientToken As UInt32, serverToken As UInt32, oldPasswordHash As String, newPasswordHash As String, username As String) As String
+		  
+		  Dim o As New MemoryBlock(49 + LenB(username))
+		  
+		  o.UInt32Value(0) = clientToken
+		  o.UInt32Value(4) = serverToken
+		  o.StringValue(8, 20) = oldPasswordHash
+		  o.StringValue(28, 20) = newPasswordHash
+		  o.CString(48) = username
+		  
+		  Return Packets.CreateBNET(Packets.SID_CHANGEPASSWORD, o)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function CreateBNET_SID_CHATCOMMAND(text As String) As String
 		  
 		  Dim o As New MemoryBlock(1 + LenB(text))
@@ -244,6 +260,9 @@ Protected Module Packets
 		    Case Packets.SID_PING
 		      Packets.ReceiveBNET_SID_PING(client, MidB(packetObject, 5))
 		      
+		    Case Packets.SID_CHANGEPASSWORD
+		      Packets.ReceiveBNET_SID_CHANGEPASSWORD(client, MidB(packetObject, 5))
+		      
 		    Case Packets.SID_LOGONRESPONSE2
 		      Packets.ReceiveBNET_SID_LOGONRESPONSE2(client, MidB(packetObject, 5))
 		      
@@ -340,6 +359,7 @@ Protected Module Packets
 		  stderr.WriteLine("BNET: Version and key challenge passed.")
 		  
 		  // Battlenet.resetPassword(client)
+		  // Battlenet.changePassword(client)
 		  Battlenet.login(client)
 		  
 		End Sub
@@ -370,6 +390,32 @@ Protected Module Packets
 		  0, 0, client.state.versionCheckFileTime, _
 		  client.state.versionCheckFileName, _
 		  client.state.versionCheckSignature))
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub ReceiveBNET_SID_CHANGEPASSWORD(client As BNETClient, packetObject As MemoryBlock)
+		  
+		  Dim status As UInt32 = packetObject.UInt32Value(0)
+		  
+		  Const STATUS_SUCCESS = &H00
+		  Const STATUS_FAILURE = &H01
+		  
+		  Select Case status
+		  Case STATUS_SUCCESS
+		  Case STATUS_FAILURE
+		    stdout.WriteLine("BNET: Failed to change password.")
+		  Case Else
+		    Raise New InvalidPacketException()
+		  End Select
+		  
+		  If status <> STATUS_SUCCESS Then
+		    client.socBNET.Disconnect()
+		    Return
+		  End If
+		  
+		  stderr.WriteLine("BNET: Password was successfully changed.")
 		  
 		End Sub
 	#tag EndMethod
@@ -709,6 +755,9 @@ Protected Module Packets
 	#tag EndConstant
 
 	#tag Constant, Name = SID_AUTH_INFO, Type = Double, Dynamic = False, Default = \"&H50", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_CHANGEPASSWORD, Type = Double, Dynamic = False, Default = \"&H31", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = SID_CHATCOMMAND, Type = Double, Dynamic = False, Default = \"&H0E", Scope = Protected

@@ -21,6 +21,7 @@ Protected Class BNETState
 		  Me.logonType             = 0
 		  Me.nullTimer             = new PacketTimer()
 		  Me.password              = client.config.password
+		  Me.passwordNew           = client.config.password
 		  Me.platform              = client.config.platform
 		  Me.product               = client.config.product
 		  Me.reconnecting          = False
@@ -143,6 +144,10 @@ Protected Class BNETState
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
+		passwordNew As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
 		platform As UInt32
 	#tag EndProperty
 
@@ -229,6 +234,11 @@ Protected Class BNETState
 			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="connectedTime"
+			Group="Behavior"
+			Type="Double"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="email"
 			Group="Behavior"
 			Type="String"
@@ -277,6 +287,11 @@ Protected Class BNETState
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="reconnecting"
+			Group="Behavior"
+			Type="Boolean"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="serverSignature"
