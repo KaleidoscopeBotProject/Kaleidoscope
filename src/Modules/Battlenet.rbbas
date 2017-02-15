@@ -166,7 +166,7 @@ Protected Module Battlenet
 		  Dim oTimestamp As New Date()
 		  Dim timestamp As String = oTimestamp.AbbreviatedDate + " " + oTimestamp.ShortTime
 		  
-		  buffer = ReplaceAll(buffer, "%{user}", message.username)
+		  buffer = ReplaceAll(buffer, "%{user}", username)
 		  buffer = ReplaceAll(buffer, "%{ping}", Format(message.ping, "-#"))
 		  If user = Nil Then
 		    buffer = ReplaceAll(buffer, "%{game}", "(null)")
