@@ -16,8 +16,10 @@ Protected Class Configuration
 		  Me.greetMessage      = ""
 		  Me.homeChannel       = ""
 		  Me.password          = ""
+		  Me.passwordNew       = ""
 		  Me.platform          = Battlenet.Platform_IX86
 		  Me.product           = 0
+		  Me.trigger           = ""
 		  Me.username          = ""
 		  
 		End Sub
@@ -148,6 +150,7 @@ Protected Class Configuration
 			Name="greetMessage"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="homeChannel"
@@ -180,6 +183,11 @@ Protected Class Configuration
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="passwordNew"
+			Group="Behavior"
+			Type="String"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"
