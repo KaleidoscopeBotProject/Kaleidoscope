@@ -2,8 +2,13 @@
 
 namespace Kaleidoscope\Libraries\Threads;
 
-class ChatParseThread {
+use \Thread;
+
+class ChatParseThread extends Thread {
 
   public $client;
+
+  public function run() {
+  }
 
 }

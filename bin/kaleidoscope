@@ -1,4 +1,4 @@
-#!/usr/bin/env php
+#!/usr/bin/env zts-php
 <?php
 
 namespace Kaleidoscope;

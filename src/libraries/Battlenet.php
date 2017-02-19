@@ -62,6 +62,10 @@ class Battlenet {
     return [$flags, $channel];
   }
 
+  public static function getLocalIP() {
+    return ip2long('127.0.0.1');
+  }
+
   public static function getTimezone() {
     $er = error_reporting(); error_reporting($er & ~E_WARNING);
     $tz = date_default_timezone_get();

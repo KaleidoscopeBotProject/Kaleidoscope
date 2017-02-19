@@ -18,15 +18,43 @@ class BNET {
     $this->socBNLS      = new BNLSSocket();
     $this->state        = null;
 
-    $this->chatParser->client = &$this;
-    $this->packetParse->client = &$this;
+    $this->chatParser->client   = $this;
+    $this->packetParser->client = $this;
 
-    $this->socBNET->client = &$this;
-    $this->socBNLS->client = &$this;
+    $this->socBNET->client = $this;
+    $this->socBNLS->client = $this;
+  }
+
+  function __destruct() {
+    //$this->chatParser->kill();
+    $this->chatParser = null;
+
+    $this->config = null;
+
+    //$this->packetParser->kill();
+    $this->packetParser = null;
+
+    $this->socBNET->disconnect();
+    $this->socBNET = null;
+
+    $this->socBNLS->disconnect();
+    $this->socBNLS = null;
+
+    $this->state = null;
   }
 
   public function connect() {
-    // TODO
+    $this->socBNET->disconnect();
+    $this->socBNLS->disconnect();
+
+    $this->socBNLS->address = $this->config->bnlsHost;
+    $this->socBNLS->port    = $this->config->bnlsPort;
+
+    $this->socBNET->address = $this->config->bnetHost;
+    $this->socBNET->port    = $this->config->bnetPort;
+
+    $this->socBNLS->connect();
+    $this->socBNET->connect();
   }
 
 }
