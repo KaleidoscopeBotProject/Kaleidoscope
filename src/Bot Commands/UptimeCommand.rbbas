@@ -24,7 +24,7 @@ Inherits BotCommand
 		  App.TimeString(botUptime, False, True) + "]"
 		  
 		  If connectionUptime <> 0 Then
-		    uptime = uptime + "Connection [" + _
+		    uptime = uptime + " Connection [" + _
 		    App.TimeString(connectionUptime, False, True) + "]"
 		  End If
 		  
