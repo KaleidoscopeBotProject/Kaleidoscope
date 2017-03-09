@@ -23,6 +23,28 @@ class BNET {
 
     $this->socBNET->client = $this;
     $this->socBNLS->client = $this;
+
+    $this->socBNET->onConnect(
+      'Kaleidoscope\Libraries\Clients\BNET::onConnect'
+    );
+    $this->socBNLS->onConnect(
+      'Kaleidoscope\Libraries\Clients\BNET::onConnect'
+    );
+
+    $this->socBNET->onDisconnect(
+      'Kaleidoscope\Libraries\Clients\BNET::onDisconnect'
+    );
+    $this->socBNLS->onDisconnect(
+      'Kaleidoscope\Libraries\Clients\BNET::onDisconnect'
+    );
+
+  }
+
+  public static function onConnect($socket) {
+    if ($socket === $socket->client->socBNET) {
+      $socket->write(0x01);
+      $socket->write(0xFF . 0x00 . 0x04 . 0x00);
+    }
   }
 
   function __destruct() {

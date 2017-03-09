@@ -11,6 +11,9 @@ abstract class TCPSocket {
 
   protected $socket;
 
+  private $onConnect;
+  private $onDisconnect;
+
   public function connect() {
     if ($this->isConnected()) { return false; }
 
@@ -35,6 +38,10 @@ abstract class TCPSocket {
       $this->socket, $address, $this->port
     );
 
+    if ($this->onConnect && $success) {
+      call_user_func($this->onConnect, $this);
+    }
+
     return $success;
   }
 
@@ -42,6 +49,10 @@ abstract class TCPSocket {
     if (!$this->socket) return false;
 
     socket_close($this->socket);
+
+    if ($this->onDisconnect) {
+      call_user_func($this->onDisconnect, $this);
+    }
 
     return true;
   }
@@ -60,6 +71,14 @@ abstract class TCPSocket {
 
   public function lastError() {
     return socket_last_error($this->socket);
+  }
+
+  public function onConnect($callback) {
+    $this->onConnect = $callback;
+  }
+
+  public function onDisconnect($callback) {
+    $this->onDisconnect = $callback;
   }
 
   public function read($length) {
