@@ -24,8 +24,15 @@ abstract class TCPSocket {
       );
     }
 
+    if (substr($this->address, 0, 1) == '['
+      && substr($this->address, -1) == ']') {
+      $address = substr($this->address, 1, -1);
+    } else {
+      $address = $this->address;
+    }
+
     $success = socket_connect(
-      $this->socket, $this->address, $this->port
+      $this->socket, $address, $this->port
     );
 
     return $success;
