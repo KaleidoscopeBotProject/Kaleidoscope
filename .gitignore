@@ -1,4 +1,3 @@
-
 *.7z
 *.app
 *.bak
@@ -15,6 +14,7 @@
 *.rar
 *.swp
 *.tar
+*.tgz
 *.vi
 *.vim
 *.zip
