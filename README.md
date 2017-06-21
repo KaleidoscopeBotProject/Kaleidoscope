@@ -7,8 +7,7 @@ Kaleidoscope is in no way affiliated with or endorsed by Blizzard
 Entertainment&trade; or its brands, and is not intended to compete with
 or undermine Blizzard Entertainment&trade; or Battle.net&trade;. All
 aforementioned trademarks are the property of their respective owners. Read the
-[LICENSE](https://github.com/carlbennett/kaleidoscope/blob/php/LICENSE.md) file
-at the root of this repository for more details.
+[LICENSE](/LICENSE.md) file at the root of this repository for more details.
 
 ## Installation
 ### Download
