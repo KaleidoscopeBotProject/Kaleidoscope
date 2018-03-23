@@ -266,6 +266,9 @@ Protected Module Packets
 		    Case Packets.SID_LOGONRESPONSE2
 		      Packets.ReceiveBNET_SID_LOGONRESPONSE2(client, MidB(packetObject, 5))
 		      
+		    Case Packets.SID_REQUIREDWORK
+		      Packets.ReceiveBNET_SID_REQUIREDWORK(client, MidB(packetObject, 5))
+		      
 		    Case Packets.SID_AUTH_INFO
 		      Packets.ReceiveBNET_SID_AUTH_INFO(client, MidB(packetObject, 5))
 		      
@@ -561,6 +564,16 @@ Protected Module Packets
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub ReceiveBNET_SID_REQUIREDWORK(client As BNETClient, packetObject As MemoryBlock)
+		  
+		  Dim filename As String = packetObject.CString(0)
+		  
+		  stdout.WriteLine("BNET: Required Work Archive [" + filename + "]")
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function ReceiveBNLS(client As BNETClient, packetObject As MemoryBlock) As Boolean
 		  
 		  Dim packetId As UInt8
@@ -804,6 +817,9 @@ Protected Module Packets
 	#tag EndConstant
 
 	#tag Constant, Name = SID_PING, Type = Double, Dynamic = False, Default = \"&H25", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_REQUIREDWORK, Type = Double, Dynamic = False, Default = \"&H4C", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = SID_RESETPASSWORD, Type = Double, Dynamic = False, Default = \"&H5A", Scope = Protected

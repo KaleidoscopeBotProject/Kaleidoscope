@@ -326,6 +326,7 @@ Inherits ConsoleApplication
 	#tag Method, Flags = &h0
 		Function PlatformVersion() As String
 		  
+		  
 		  #If TargetWin32 Then
 		    
 		    Soft Declare Function GetVersion Lib "Kernel32" () As UInt32
