@@ -95,6 +95,7 @@ Protected Class BotCommand
 		  BotCommand.registered.Append(New JoinCommand())
 		  BotCommand.registered.Append(New KickCommand())
 		  BotCommand.registered.Append(New LeaveCommand())
+		  BotCommand.registered.Append(New LocateCommand())
 		  BotCommand.registered.Append(New OSCommand())
 		  BotCommand.registered.Append(New PingCommand())
 		  BotCommand.registered.Append(New PingMeCommand())
