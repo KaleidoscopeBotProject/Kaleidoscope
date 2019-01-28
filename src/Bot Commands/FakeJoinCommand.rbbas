@@ -4,6 +4,7 @@ Inherits BotCommand
 	#tag Event
 		Function Action(client As BNETClient, message As ChatMessage, suggestedResponseType As Integer, args As String) As ChatResponse
 		  
+		  #pragma Unused message
 		  #pragma Unused suggestedResponseType
 		  
 		  client.state.lastChannel = client.state.channel
