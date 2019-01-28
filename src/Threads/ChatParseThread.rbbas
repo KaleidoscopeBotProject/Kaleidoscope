@@ -55,6 +55,10 @@ Inherits Thread
 		      
 		    Case Packets.EID_CHANNEL
 		      
+		      If LenB( Me.client.state.channel ) > 0 Then
+		        Me.client.state.lastChannel = Me.client.state.channel
+		      End If
+		      
 		      Me.client.state.channel      = msg.text
 		      Me.client.state.channelUsers = New Dictionary()
 		      

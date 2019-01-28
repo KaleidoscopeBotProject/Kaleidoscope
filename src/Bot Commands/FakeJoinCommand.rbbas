@@ -6,6 +6,8 @@ Inherits BotCommand
 		  
 		  #pragma Unused suggestedResponseType
 		  
+		  client.state.lastChannel = client.state.channel
+		  
 		  client.state.channel = ""
 		  client.state.channelUsers.Clear()
 		  

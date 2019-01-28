@@ -16,6 +16,7 @@ Protected Class BNETState
 		  Me.gameKey2              = client.config.gameKey2
 		  Me.gameKeyOwner          = client.config.gameKeyOwner
 		  Me.joinCommandState      = Nil
+		  Me.lastChannel           = ""
 		  Me.lastCommand           = Nil
 		  Me.localIP               = Battlenet.getLocalIP()
 		  Me.logonType             = 0
@@ -121,6 +122,10 @@ Protected Class BNETState
 
 	#tag Property, Flags = &h0
 		joinCommandState As Pair
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		lastChannel As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -287,6 +292,11 @@ Protected Class BNETState
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="passwordNew"
+			Group="Behavior"
+			Type="String"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="reconnecting"
