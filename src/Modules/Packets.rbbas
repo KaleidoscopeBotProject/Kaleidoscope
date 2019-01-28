@@ -474,12 +474,15 @@ Protected Module Packets
 		  Dim channels(), channel As String
 		  Dim cursor As Integer = 0
 		  
-		  Do
+		  While packetObject.Size > cursor
 		    channel = packetObject.CString(cursor)
 		    cursor = cursor + LenB(channel) + 1
-		    If LenB(channel) = 0 Then Exit Do
 		    channels.Append(channel)
-		  Loop
+		  Wend
+		  
+		  Dim lastIndex As Integer = UBound( channels )
+		  
+		  If LenB( channels( lastIndex )) = 0 Then channels.Remove( lastIndex )
 		  
 		  client.state.channelList = channels
 		  
@@ -565,6 +568,8 @@ Protected Module Packets
 
 	#tag Method, Flags = &h1
 		Protected Sub ReceiveBNET_SID_REQUIREDWORK(client As BNETClient, packetObject As MemoryBlock)
+		  
+		  #pragma Unused client
 		  
 		  Dim filename As String = packetObject.CString(0)
 		  
