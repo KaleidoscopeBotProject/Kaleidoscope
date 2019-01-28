@@ -133,6 +133,14 @@ Protected Module Packets
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function CreateBNET_SID_LEAVECHAT() As String
+		  
+		  Return Packets.CreateBNET(Packets.SID_LEAVECHAT, "")
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function CreateBNET_SID_LOGONRESPONSE2(clientToken As UInt32, serverToken As UInt32, passwordHash As String, username As String) As String
 		  
 		  Dim o As New MemoryBlock(29 + LenB(username))
@@ -143,6 +151,21 @@ Protected Module Packets
 		  o.CString(28) = username
 		  
 		  Return Packets.CreateBNET(Packets.SID_LOGONRESPONSE2, o)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function CreateBNET_SID_NOTIFYJOIN(productId As UInt32, versionByte As UInt32, gameName As String, gamePassword As String) As String
+		  
+		  Dim o As New MemoryBlock(10 + LenB(gameName) + LenB(gamePassword))
+		  
+		  o.UInt32Value(0) = productId
+		  o.UInt32Value(4) = versionByte
+		  o.CString(8) = gameName
+		  o.CString(9 + LenB(gameName)) = gamePassword
+		  
+		  Return Packets.CreateBNET(Packets.SID_NOTIFYJOIN, o)
 		  
 		End Function
 	#tag EndMethod
@@ -809,6 +832,9 @@ Protected Module Packets
 	#tag Constant, Name = SID_JOINCHANNEL, Type = Double, Dynamic = False, Default = \"&H0C", Scope = Protected
 	#tag EndConstant
 
+	#tag Constant, Name = SID_LEAVECHAT, Type = Double, Dynamic = False, Default = \"&H10", Scope = Protected
+	#tag EndConstant
+
 	#tag Constant, Name = SID_LOCALEINFO, Type = Double, Dynamic = False, Default = \"&H12", Scope = Protected
 	#tag EndConstant
 
@@ -816,6 +842,9 @@ Protected Module Packets
 	#tag EndConstant
 
 	#tag Constant, Name = SID_LOGONRESPONSE2, Type = Double, Dynamic = False, Default = \"&H3A", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_NOTIFYJOIN, Type = Double, Dynamic = False, Default = \"&H22", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = SID_NULL, Type = Double, Dynamic = False, Default = \"&H00", Scope = Protected

@@ -90,6 +90,7 @@ Protected Class BotCommand
 		  
 		  BotCommand.registered.Append(New BanCommand())
 		  BotCommand.registered.Append(New ChannelPingCommand())
+		  BotCommand.registered.Append(New FakeJoinCommand())
 		  BotCommand.registered.Append(New HomeCommand())
 		  BotCommand.registered.Append(New JoinCommand())
 		  BotCommand.registered.Append(New KickCommand())
