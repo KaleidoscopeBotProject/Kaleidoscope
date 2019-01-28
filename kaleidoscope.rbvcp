@@ -12,6 +12,7 @@ Class=PingCommand;src/Bot Commands/PingCommand.rbbas;&h65E5FFF;&h1B910FFF;false
 Class=PingMeCommand;src/Bot Commands/PingMeCommand.rbbas;&h621B97FF;&h1B910FFF;false
 Class=QuitCommand;src/Bot Commands/QuitCommand.rbbas;&h4D190FFF;&h1B910FFF;false
 Class=ReconnectCommand;src/Bot Commands/ReconnectCommand.rbbas;&h5BB8FFF;&h1B910FFF;false
+Class=ReJoinCommand;src/Bot Commands/ReJoinCommand.rbbas;&h76FC27FF;&h1B910FFF;false
 Class=SayCommand;src/Bot Commands/SayCommand.rbbas;&h6E8FF7FF;&h1B910FFF;false
 Class=BNETClient;src/Classes/BNETClient.rbbas;&h52C017FF;&h3B73B7FF;false
 Class=BNETState;src/Classes/BNETState.rbbas;&h2A86B7FF;&h3B73B7FF;false
