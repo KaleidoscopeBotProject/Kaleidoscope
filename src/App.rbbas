@@ -246,6 +246,8 @@ Inherits ConsoleApplication
 		        End If
 		        
 		        Select Case key
+		        Case "autoRejoin"
+		          client.config.autoRejoin = Battlenet.strToBool(val)
 		        Case "bnetHost"
 		          client.config.bnetHost = val
 		        Case "bnetPort"

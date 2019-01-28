@@ -3,6 +3,7 @@ Protected Class Configuration
 	#tag Method, Flags = &h0
 		Sub Constructor()
 		  
+		  Me.autoRejoin        = False
 		  Me.bnetHost          = "useast.battle.net"
 		  Me.bnetPort          = 6112
 		  Me.bnlsHost          = "bnls.bnetdocs.org"
@@ -25,6 +26,10 @@ Protected Class Configuration
 		End Sub
 	#tag EndMethod
 
+
+	#tag Property, Flags = &h0
+		autoRejoin As Boolean
+	#tag EndProperty
 
 	#tag Property, Flags = &h0
 		bnetHost As String
@@ -188,6 +193,7 @@ Protected Class Configuration
 			Name="passwordNew"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Super"

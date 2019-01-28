@@ -92,6 +92,15 @@ Inherits Thread
 		      
 		      stdout.WriteLine(App.PrefixLines(msg.text, "BNET Info: "))
 		      
+		      If Me.client.config.autoRejoin = True And InStr( msg.text, "kicked you out of the channel" ) > 0 Then
+		        Dim channel As String = Me.client.state.channel
+		        If LenB( channel ) = 0 Then channel = Me.client.state.lastChannel
+		        If LenB( channel ) > 0 Then
+		          responses.Append( New ChatResponse( ChatResponse.TYPE_PACKET, _
+		          Packets.CreateBNET_SID_JOINCHANNEL( Packets.FLAG_NOCREATE, channel )))
+		        End If
+		      End If
+		      
 		    Case Packets.EID_ERROR
 		      
 		      stdout.WriteLine(App.PrefixLines(msg.text, "BNET Error: "))
