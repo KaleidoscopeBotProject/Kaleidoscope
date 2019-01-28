@@ -16,6 +16,10 @@ Protected Class Configuration
 		  Me.greetEnabled      = False
 		  Me.greetMessage      = ""
 		  Me.homeChannel       = ""
+		  Me.idleBaseInterval  = 0
+		  Me.idleDelayInterval = 0
+		  Me.idleEnabled       = False
+		  Me.idleMessage       = ""
 		  Me.password          = ""
 		  Me.passwordNew       = ""
 		  Me.platform          = Battlenet.Platform_IX86
@@ -77,6 +81,22 @@ Protected Class Configuration
 
 	#tag Property, Flags = &h0
 		homeChannel As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		idleBaseInterval As UInt64
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		idleDelayInterval As UInt64
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		idleEnabled As Boolean
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		idleMessage As String
 	#tag EndProperty
 
 	#tag Property, Flags = &h0

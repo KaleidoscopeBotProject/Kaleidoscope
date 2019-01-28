@@ -8,7 +8,7 @@ Inherits BotCommand
 		  #pragma Unused message
 		  #pragma Unused args
 		  
-		  Return New ChatResponse(suggestedResponseType, App.ProjectName() + " v" + App.VersionString() + " by Caaaaarrrrlll")
+		  Return New ChatResponse(suggestedResponseType, App.ProjectName() + " v" + App.VersionString() + " by " + App.AuthorName())
 		  
 		End Function
 	#tag EndEvent

@@ -486,6 +486,11 @@ Protected Module Packets
 		  client.state.statstring  = packetObject.CString(1 + LenB(client.state.uniqueName))
 		  client.state.accountName = packetObject.CString(2 + LenB(client.state.uniqueName) + LenB(client.state.statstring))
 		  
+		  If client.config.idleEnabled = True And client.config.idleBaseInterval > 0 _
+		    And client.idleBotTimer.Mode <> IdleBotTimer.ModeMultiple Then
+		    client.idleBotTimer.Mode = IdleBotTimer.ModeMultiple
+		  End If
+		  
 		  stdout.WriteLine("BNET: Logged on as " + client.state.uniqueName + "!")
 		  
 		End Sub

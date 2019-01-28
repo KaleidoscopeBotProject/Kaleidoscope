@@ -55,6 +55,14 @@ Inherits ConsoleApplication
 	#tag EndEvent
 
 
+	#tag Method, Flags = &h0
+		Function AuthorName() As String
+		  
+		  Return "Caaaaarrrrlll"
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h1
 		Protected Sub ParseArgs(args() As String)
 		  
@@ -272,6 +280,14 @@ Inherits ConsoleApplication
 		          client.config.greetMessage = val
 		        Case "homeChannel"
 		          client.config.homeChannel = val
+		        Case "idleBaseInterval"
+		          client.config.idleBaseInterval = Val(val)
+		        Case "idleDelayInterval"
+		          client.config.idleDelayInterval = Val(val)
+		        Case "idleEnabled"
+		          client.config.idleEnabled = Battlenet.strToBool(val)
+		        Case "idleMessage"
+		          client.config.idleMessage = val
 		        Case "password"
 		          client.config.password = val
 		        Case "passwordNew"

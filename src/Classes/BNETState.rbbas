@@ -12,6 +12,7 @@ Protected Class BNETState
 		  Me.clientToken           = Battlenet.getClientToken()
 		  Me.connectedTime         = 0
 		  Me.email                 = client.config.email
+		  Me.flags                 = 0
 		  Me.gameKey1              = client.config.gameKey1
 		  Me.gameKey2              = client.config.gameKey2
 		  Me.gameKeyOwner          = client.config.gameKeyOwner
@@ -23,6 +24,7 @@ Protected Class BNETState
 		  Me.nullTimer             = new PacketTimer()
 		  Me.password              = client.config.password
 		  Me.passwordNew           = client.config.passwordNew
+		  Me.ping                  = 0
 		  Me.platform              = client.config.platform
 		  Me.product               = client.config.product
 		  Me.reconnecting          = False
@@ -109,6 +111,10 @@ Protected Class BNETState
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
+		flags As UInt32
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
 		gameKey1 As String
 	#tag EndProperty
 
@@ -150,6 +156,10 @@ Protected Class BNETState
 
 	#tag Property, Flags = &h0
 		passwordNew As String
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		ping As Int32
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -275,6 +285,11 @@ Protected Class BNETState
 			InheritedFrom="Object"
 		#tag EndViewProperty
 		#tag ViewProperty
+			Name="lastChannel"
+			Group="Behavior"
+			Type="String"
+		#tag EndViewProperty
+		#tag ViewProperty
 			Name="Left"
 			Visible=true
 			Group="Position"
@@ -297,6 +312,7 @@ Protected Class BNETState
 			Name="passwordNew"
 			Group="Behavior"
 			Type="String"
+			EditorType="MultiLineEditor"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="reconnecting"

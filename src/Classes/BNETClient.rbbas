@@ -32,10 +32,14 @@ Protected Class BNETClient
 		  
 		  Me.chatParser   = New ChatParseThread()
 		  Me.config       = New Configuration()
+		  Me.idleBotTimer = New IdleBotTimer()
 		  Me.packetParser = New PacketParseThread()
 		  Me.socBNET      = New BNETSocket()
 		  Me.socBNLS      = New BNLSSocket()
 		  Me.state        = Nil
+		  
+		  Me.idleBotTimer.client = Me
+		  Me.idleBotTimer.Mode = idleBotTimer.ModeOff
 		  
 		  Me.chatParser.client   = Me
 		  Me.packetParser.client = Me
@@ -101,6 +105,10 @@ Protected Class BNETClient
 
 	#tag Property, Flags = &h0
 		config As Configuration
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		idleBotTimer As IdleBotTimer
 	#tag EndProperty
 
 	#tag Property, Flags = &h0

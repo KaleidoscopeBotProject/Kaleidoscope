@@ -186,6 +186,73 @@ Protected Module Battlenet
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub IdleBot(client As BNETClient)
+		  
+		  If client = Nil Then Return
+		  
+		  Dim message As String = client.config.idleMessage
+		  
+		  If Len( message ) = 0 Then Return
+		  
+		  Dim otherUsers() As Variant
+		  Dim user As ChannelUser
+		  Dim i, count, newCount As Integer
+		  
+		  otherUsers = client.state.channelUsers.Values()
+		  count = UBound( otherUsers )
+		  
+		  // Remove ourselves
+		  i = count
+		  While i >= 0
+		    user = otherUsers( i )
+		    If Battlenet.onlineNameToAccountName( user.username, client.state.product, True, "" ) = client.state.uniqueName Then
+		      otherUsers.Remove( i )
+		      Exit While
+		    End If
+		    i = i - 1
+		  Wend
+		  newCount = UBound( otherUsers ) // re-count in case we didn't find ourselves, count and newCount will match if so
+		  
+		  Dim oTimestamp As New Date()
+		  Dim timestamp As String = oTimestamp.AbbreviatedDate + " " + oTimestamp.ShortTime
+		  
+		  message = ReplaceAll( message, "%{self}", Battlenet.onlineNameToAccountName( client.state.uniqueName, client.state.product, True, "" ))
+		  message = ReplaceAll( message, "%{user}", client.state.uniqueName )
+		  message = ReplaceAll( message, "%{ping}", Format( client.state.ping, "-#" ))
+		  message = ReplaceAll( message, "%{game}", Battlenet.productToStr( client.state.product, True ))
+		  message = ReplaceAll( message, "%{channel}", client.state.channel )
+		  message = ReplaceAll( message, "%{time}", timestamp )
+		  message = ReplaceAll( message, "%{count}", Format( count + 1, "-#" ))
+		  message = ReplaceAll( message, "%{xcount}", Format( newCount + 1, "-#" ))
+		  message = ReplaceAll( message, "%{version}", App.ProjectName() + " v" + App.VersionString() )
+		  message = ReplaceAll( message, "%{author}", App.AuthorName() )
+		  
+		  If InStr( message, "%{ruser}" ) > 0 Or _
+		    InStr( message, "%{rping}" ) > 0 Or _
+		    InStr( message, "%{rgame}" ) > 0 Then
+		    Dim rindex As Integer = Floor( Rnd() * ( 1 + newCount ))
+		    If rindex < 0 Or rindex > newCount Then user = Nil Else user = otherUsers( rindex )
+		    If user = Nil Then
+		      
+		      message = ReplaceAll( message, "%{ruser}", "(null)" )
+		      message = ReplaceAll( message, "%{rping}", "(null)" )
+		      message = ReplaceAll( message, "%{rgame}", "(null)" )
+		      
+		    Else
+		      
+		      message = ReplaceAll( message, "%{ruser}", user.username )
+		      message = ReplaceAll( message, "%{rping}", Format( user.ping, "-#" ))
+		      message = ReplaceAll( message, "%{rgame}", Battlenet.productToStr( Battlenet.strToProduct( LeftB( user.metadata, 4 )), True ))
+		      
+		    End If
+		  End If
+		  
+		  client.socBNET.Write( Packets.CreateBNET_SID_CHATCOMMAND( message ))
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function isDiablo2(product As UInt32) As Boolean
 		  
 		  Select Case product

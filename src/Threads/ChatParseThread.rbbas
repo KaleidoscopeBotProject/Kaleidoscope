@@ -25,6 +25,11 @@ Inherits Thread
 		      
 		      stdout.WriteLine("BNET: " + username + " joined")
 		      
+		      If Me.client.state.uniqueName = msg.username Then
+		        Me.client.state.flags = msg.flags
+		        Me.client.state.ping = msg.ping
+		      End If
+		      
 		      If msg.eventId = Packets.EID_USERJOIN And Me.client.config.greetEnabled = True Then
 		        Dim greetMsg As ChatResponse = Battlenet.GreetBot(Me.client, msg, username)
 		        If greetMsg <> Nil Then responses.Append(greetMsg)

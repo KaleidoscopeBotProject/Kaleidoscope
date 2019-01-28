@@ -61,6 +61,8 @@ Inherits TCPSocket
 		  Me.client.state.bnetReadBuffer = Nil
 		  ReDim Me.client.chatParser.messages(-1)
 		  
+		  Me.client.idleBotTimer.Mode = IdleBotTimer.ModeOff
+		  
 		  Dim bReconnect As Boolean = False
 		  If Me.client.state <> Nil Then bReconnect = Me.client.state.reconnecting
 		  
