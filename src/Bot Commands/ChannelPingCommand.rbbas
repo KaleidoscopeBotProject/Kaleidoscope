@@ -5,9 +5,9 @@ Inherits BotCommand
 		Function Action(client As BNETClient, message As ChatMessage, suggestedResponseType As Integer, args As String) As ChatResponse
 		  
 		  #pragma Unused message
+		  #pragma Unused args
 		  
 		  Dim result As Double
-		  Dim pings() As Int32
 		  Dim user As ChannelUser
 		  Dim users() As Variant
 		  
