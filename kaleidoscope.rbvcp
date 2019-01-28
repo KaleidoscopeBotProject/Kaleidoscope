@@ -7,6 +7,7 @@ Class=FakeJoinCommand;src/Bot Commands/FakeJoinCommand.rbbas;&h426BC7FF;&h1B910F
 Class=HomeCommand;src/Bot Commands/HomeCommand.rbbas;&h6561CFFF;&h1B910FFF;false
 Class=JoinCommand;src/Bot Commands/JoinCommand.rbbas;&h7C32EFFF;&h1B910FFF;false
 Class=KickCommand;src/Bot Commands/KickCommand.rbbas;&h2B6BD7FF;&h1B910FFF;false
+Class=LeaveCommand;src/Bot Commands/LeaveCommand.rbbas;&h66DCDFFF;&h1B910FFF;false
 Class=OSCommand;src/Bot Commands/OSCommand.rbbas;&h243AB7FF;&h1B910FFF;false
 Class=PingCommand;src/Bot Commands/PingCommand.rbbas;&h65E5FFF;&h1B910FFF;false
 Class=PingMeCommand;src/Bot Commands/PingMeCommand.rbbas;&h621B97FF;&h1B910FFF;false
