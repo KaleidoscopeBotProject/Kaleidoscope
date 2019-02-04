@@ -283,6 +283,9 @@ Protected Module Packets
 		    Case Packets.SID_FLOODDETECTED
 		      Packets.ReceiveBNET_SID_FLOODDETECTED(client, MidB(packetObject, 5))
 		      
+		    Case Packets.SID_MESSAGEBOX
+		      Packets.ReceiveBNET_SID_MESSAGEBOX(client, MidB(packetObject, 5))
+		      
 		    Case Packets.SID_PING
 		      Packets.ReceiveBNET_SID_PING(client, MidB(packetObject, 5))
 		      
@@ -592,6 +595,26 @@ Protected Module Packets
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub ReceiveBNET_SID_MESSAGEBOX(client As BNETClient, packetObject As MemoryBlock)
+		  
+		  #pragma Unused client
+		  
+		  If packetObject.Size < 6 Then
+		    Raise New InvalidPacketException()
+		  End If
+		  
+		  Dim style As UInt32 = packetObject.UInt32Value(0)
+		  Dim text As String = packetObject.CString(4)
+		  Dim caption As String = packetObject.CString(5 + LenB(text))
+		  
+		  stdout.WriteLine("BNET: Received MessageBox [style: 0x" + Right("0000000" + Hex(style), 8) + ", " _
+		  + "caption: """ + ReplaceAll(ReplaceAll(caption, "\", "\\"), """", "\""") + """, " _
+		  + "text: """ + ReplaceAll(ReplaceAll(text, "\", "\\"), """", "\""") + """]")
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Sub ReceiveBNET_SID_NULL(client As BNETClient, packetObject As MemoryBlock)
 		  
 		  #pragma Unused client
@@ -867,6 +890,9 @@ Protected Module Packets
 	#tag EndConstant
 
 	#tag Constant, Name = SID_LOGONRESPONSE2, Type = Double, Dynamic = False, Default = \"&H3A", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_MESSAGEBOX, Type = Double, Dynamic = False, Default = \"&H19", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = SID_NOTIFYJOIN, Type = Double, Dynamic = False, Default = \"&H22", Scope = Protected
