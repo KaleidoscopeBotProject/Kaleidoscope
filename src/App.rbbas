@@ -264,6 +264,8 @@ Inherits ConsoleApplication
 		          client.config.bnlsHost = val
 		        Case "bnlsPort"
 		          client.config.bnlsPort = Val(val)
+		        Case "createAccount"
+		          client.config.createAccount = Val(val)
 		        Case "email"
 		          client.config.email = val
 		        Case "gameKey1"

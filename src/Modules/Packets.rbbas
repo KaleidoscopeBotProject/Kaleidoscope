@@ -20,6 +20,20 @@ Protected Module Packets
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function CreateBNET_SID_AUTH_ACCOUNTCREATE(salt As String, verifier As String, username As String) As String
+		  
+		  Dim o As New MemoryBlock(65 + LenB(username))
+		  
+		  o.StringValue(0, 32) = salt
+		  o.StringValue(32, 32) = verifier
+		  o.CString(64) = username
+		  
+		  Return Packets.CreateBNET(Packets.SID_AUTH_ACCOUNTCREATE, o)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function CreateBNET_SID_AUTH_CHECK(clientToken As UInt32, versionNumber As UInt32, versionChecksum As UInt32, numberOfKeys As UInt32, spawnKey As Boolean, keyData As String, versionSignature As String, keyOwner As String) As String
 		  
 		  Dim o As New MemoryBlock(20 + (numberOfKeys * 36) + 2 + LenB(versionSignature) + LenB(keyOwner))
@@ -90,6 +104,19 @@ Protected Module Packets
 		  o.CString(0) = text
 		  
 		  Return Packets.CreateBNET(Packets.SID_CHATCOMMAND, o)
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Function CreateBNET_SID_CREATEACCOUNT2(passwordHash As String, username As String) As String
+		  
+		  Dim o As New MemoryBlock(21 + LenB(username))
+		  
+		  o.StringValue(0, 20) = passwordHash
+		  o.CString(20) = username
+		  
+		  Return Packets.CreateBNET(Packets.SID_CREATEACCOUNT2, o)
 		  
 		End Function
 	#tag EndMethod
@@ -203,6 +230,14 @@ Protected Module Packets
 		End Function
 	#tag EndMethod
 
+	#tag Method, Flags = &h1
+		Protected Function CreateBNET_SID_SETEMAIL(emailAddress As String) As String
+		  
+		  Return Packets.CreateBNET(Packets.SID_SETEMAIL, emailAddress + ChrB(0))
+		  
+		End Function
+	#tag EndMethod
+
 	#tag Method, Flags = &h21
 		Private Function CreateBNLS(packetId As Byte, packetData As String) As String
 		  
@@ -295,6 +330,9 @@ Protected Module Packets
 		    Case Packets.SID_LOGONRESPONSE2
 		      Packets.ReceiveBNET_SID_LOGONRESPONSE2(client, MidB(packetObject, 5))
 		      
+		    Case Packets.SID_CREATEACCOUNT2
+		      Packets.ReceiveBNET_SID_CREATEACCOUNT2(client, MidB(packetObject, 5))
+		      
 		    Case Packets.SID_REQUIREDWORK
 		      Packets.ReceiveBNET_SID_REQUIREDWORK(client, MidB(packetObject, 5))
 		      
@@ -303,6 +341,9 @@ Protected Module Packets
 		      
 		    Case Packets.SID_AUTH_CHECK
 		      Packets.ReceiveBNET_SID_AUTH_CHECK(client, MidB(packetObject, 5))
+		      
+		    Case Packets.SID_SETEMAIL
+		      Packets.ReceiveBNET_SID_SETEMAIL(client, MidB(packetObject, 5))
 		      
 		    Case Else
 		      Raise New UnknownPacketException()
@@ -394,6 +435,8 @@ Protected Module Packets
 		  
 		  If Len(client.state.passwordNew) > 0 And StrComp(client.state.password, client.state.passwordNew, 0) <> 0 Then
 		    Battlenet.changePassword(client)
+		  ElseIf client.config.createAccount = Configuration.CreateAccountOnCreateThenLogin Then
+		    Battlenet.createAccount(client)
 		  Else
 		    Battlenet.login(client)
 		  End If
@@ -486,6 +529,57 @@ Protected Module Packets
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Sub ReceiveBNET_SID_CREATEACCOUNT2(client As BNETClient, packetObject As MemoryBlock)
+		  
+		  Dim status As UInt32 = packetObject.UInt32Value(0)
+		  
+		  // packet format may have additional data after the 4-bytes. See:
+		  // <https://bnetdocs.org/packet/255/sid-createaccount2>
+		  
+		  Const STATUS_SUCCESS = &H00
+		  Const STATUS_NAME_SHORT = &H01
+		  Const STATUS_NAME_INVALID = &H02
+		  Const STATUS_NAME_BANNED = &H03
+		  Const STATUS_NAME_EXISTS = &H04
+		  Const STATUS_NAME_BEING_CREATED = &H05
+		  Const STATUS_NAME_NEEDS_ALPHANUMERIC = &H06
+		  Const STATUS_NAME_ADJACENT_PUNCTUATION = &H07
+		  Const STATUS_NAME_TOO_MANY_PUNCTUATION = &H08
+		  
+		  Select Case status
+		  Case STATUS_SUCCESS
+		    stdout.WriteLine("BNET: Account was successfully created.")
+		  Case STATUS_NAME_SHORT
+		    stdout.WriteLine("BNET: Account name is too short in length.")
+		  Case STATUS_NAME_INVALID
+		    stdout.WriteLine("BNET: Account name contains invalid characters.")
+		  Case STATUS_NAME_BANNED
+		    stdout.WriteLine("BNET: Account name contains a banned word.")
+		  Case STATUS_NAME_EXISTS
+		    stdout.WriteLine("BNET: Account already exists.")
+		  Case STATUS_NAME_BEING_CREATED
+		    stdout.WriteLine("BNET: Account is already being created.")
+		  Case STATUS_NAME_NEEDS_ALPHANUMERIC
+		    stdout.WriteLine("BNET: Account name needs more alphanumeric characters.")
+		  Case STATUS_NAME_ADJACENT_PUNCTUATION
+		    stdout.WriteLine("BNET: Account name contains adjacent punctuation characters.")
+		  Case STATUS_NAME_TOO_MANY_PUNCTUATION
+		    stdout.WriteLine("BNET: Account name contains too many punctuation characters.")
+		  Case Else
+		    Raise New InvalidPacketException()
+		  End Select
+		  
+		  If status <> STATUS_SUCCESS And status <> STATUS_NAME_EXISTS And status <> STATUS_NAME_BEING_CREATED Then
+		    client.socBNET.Disconnect()
+		    Return
+		  End If
+		  
+		  Battlenet.login(client)
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Sub ReceiveBNET_SID_ENTERCHAT(client As BNETClient, packetObject As MemoryBlock)
 		  
 		  client.state.uniqueName  = packetObject.CString(0)
@@ -564,13 +658,21 @@ Protected Module Packets
 		    stdout.WriteLine("BNET: Incorrect password.")
 		  Case STATUS_CLOSED
 		    value = packetObject.CString(4)
-		    stdout.WriteLine("BNET: " + value)
+		    If LenB(value) = 0 Then
+		      stdout.WriteLine("BNET: Account closed.")
+		    Else
+		      stdout.WriteLine("BNET: Account closed. Reason: " + value)
+		    End If
 		  Case Else
 		    Raise New InvalidPacketException()
 		  End Select
 		  
 		  If status <> STATUS_SUCCESS Then
-		    client.socBNET.Disconnect()
+		    If client.config.createAccount = Configuration.CreateAccountOff Then
+		      client.socBNET.Disconnect()
+		    Else
+		      Battlenet.createAccount(client)
+		    End If
 		    Return
 		  End If
 		  
@@ -642,6 +744,25 @@ Protected Module Packets
 		  Dim filename As String = packetObject.CString(0)
 		  
 		  stdout.WriteLine("BNET: Required Work Archive [" + filename + "]")
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub ReceiveBNET_SID_SETEMAIL(client As BNETClient, packetObject As MemoryBlock)
+		  
+		  #pragma Unused client
+		  
+		  If packetObject.Size <> 0 Then
+		    Raise New InvalidPacketException()
+		  End If
+		  
+		  If LenB(client.config.email) = 0 Then
+		    stdout.WriteLine("BNET: Email is not set.")
+		  Else
+		    stdout.WriteLine("BNET: Email is not set, setting email.")
+		    client.socBNET.Write(Packets.CreateBNET_SID_SETEMAIL(client.config.email))
+		  End If
 		  
 		End Sub
 	#tag EndMethod
@@ -847,6 +968,27 @@ Protected Module Packets
 	#tag Constant, Name = FLAG_NOCREATE, Type = Double, Dynamic = False, Default = \"&H00", Scope = Protected
 	#tag EndConstant
 
+	#tag Constant, Name = SID_AUTH_ACCOUNTCHANGE, Type = Double, Dynamic = False, Default = \"&H55", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_AUTH_ACCOUNTCHANGEPROOF, Type = Double, Dynamic = False, Default = \"&H56", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_AUTH_ACCOUNTCREATE, Type = Double, Dynamic = False, Default = \"&H52", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_AUTH_ACCOUNTLOGON, Type = Double, Dynamic = False, Default = \"&H53", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_AUTH_ACCOUNTLOGONPROOF, Type = Double, Dynamic = False, Default = \"&H54", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_AUTH_ACCOUNTUPGRADE, Type = Double, Dynamic = False, Default = \"&H57", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_AUTH_ACCOUNTUPGRADEPROOF, Type = Double, Dynamic = False, Default = \"&H58", Scope = Protected
+	#tag EndConstant
+
 	#tag Constant, Name = SID_AUTH_CHECK, Type = Double, Dynamic = False, Default = \"&H51", Scope = Protected
 	#tag EndConstant
 
@@ -866,6 +1008,9 @@ Protected Module Packets
 	#tag EndConstant
 
 	#tag Constant, Name = SID_CLIENTID2, Type = Double, Dynamic = False, Default = \"&H1E", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_CREATEACCOUNT2, Type = Double, Dynamic = False, Default = \"&H3D", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = SID_ENTERCHAT, Type = Double, Dynamic = False, Default = \"&H0A", Scope = Protected
@@ -908,6 +1053,9 @@ Protected Module Packets
 	#tag EndConstant
 
 	#tag Constant, Name = SID_RESETPASSWORD, Type = Double, Dynamic = False, Default = \"&H5A", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_SETEMAIL, Type = Double, Dynamic = False, Default = \"&H59", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = SID_STARTVERSIONING, Type = Double, Dynamic = False, Default = \"&H06", Scope = Protected

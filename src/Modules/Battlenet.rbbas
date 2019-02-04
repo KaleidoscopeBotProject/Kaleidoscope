@@ -7,6 +7,8 @@ Protected Module Battlenet
 		  Const TYPE_NLS_BETA = &H01
 		  Const TYPE_NLS      = &H02
 		  
+		  stdout.WriteLine("BNET: Changing account password...")
+		  
 		  Select Case client.state.logonType
 		  Case TYPE_OLS
 		    
@@ -20,7 +22,36 @@ Protected Module Battlenet
 		    
 		  Case TYPE_NLS_BETA, TYPE_NLS
 		    
-		    stderr.WriteLine("DEBUG: NLS")
+		    stderr.WriteLine("DEBUG: NLS changePassword()")
+		    
+		  Case Else
+		    
+		    Raise New BattlenetException("Undefined logon type '" + Format(client.state.logonType, "-#") + "'")
+		    
+		  End Select
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub createAccount(client As BNETClient)
+		  
+		  Const TYPE_OLS      = &H00
+		  Const TYPE_NLS_BETA = &H01
+		  Const TYPE_NLS      = &H02
+		  
+		  stdout.WriteLine("BNET: Creating account...")
+		  
+		  Select Case client.state.logonType
+		  Case TYPE_OLS
+		    
+		    client.socBNET.Write(Packets.CreateBNET_SID_CREATEACCOUNT2(_
+		    Battlenet.passwordDataOLS(client.state.password), _
+		    client.state.username))
+		    
+		  Case TYPE_NLS_BETA, TYPE_NLS
+		    
+		    stderr.WriteLine("DEBUG: NLS createAccount()")
 		    
 		  Case Else
 		    
@@ -288,6 +319,8 @@ Protected Module Battlenet
 		  Const TYPE_NLS_BETA = &H01
 		  Const TYPE_NLS      = &H02
 		  
+		  stdout.WriteLine("BNET: Logging in to account...")
+		  
 		  Select Case client.state.logonType
 		  Case TYPE_OLS
 		    
@@ -299,7 +332,7 @@ Protected Module Battlenet
 		    
 		  Case TYPE_NLS_BETA, TYPE_NLS
 		    
-		    stderr.WriteLine("DEBUG: NLS")
+		    stderr.WriteLine("DEBUG: NLS login()")
 		    
 		  Case Else
 		    
@@ -398,10 +431,27 @@ Protected Module Battlenet
 	#tag EndMethod
 
 	#tag Method, Flags = &h1
+		Protected Function passwordDataOLS(password As String) As String
+		  
+		  Soft Declare Sub hashPassword Lib Battlenet.libBNCSUtil (password As Ptr, passwordHash As Ptr)
+		  
+		  Dim mPassword As New MemoryBlock(LenB(password) + 1)
+		  mPassword.CString(0) = password
+		  
+		  Dim mPasswordHash As New MemoryBlock(20)
+		  
+		  hashPassword(mPassword, mPasswordHash)
+		  
+		  Return mPasswordHash
+		  
+		End Function
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
 		Protected Function passwordDataOLS(password As String, clientToken As UInt32, serverToken As UInt32) As String
 		  
 		  Soft Declare Sub doubleHashPassword Lib Battlenet.libBNCSUtil (_
-		  password As Ptr,clientToken As UInt32, serverToken As UInt32, _
+		  password As Ptr, clientToken As UInt32, serverToken As UInt32, _
 		  passwordHash As Ptr)
 		  
 		  Dim mPassword As New MemoryBlock(LenB(password) + 1)
@@ -530,6 +580,8 @@ Protected Module Battlenet
 		  Const TYPE_NLS_BETA = &H01
 		  Const TYPE_NLS      = &H02
 		  
+		  stdout.WriteLine("BNET: Resetting account password...")
+		  
 		  Select Case client.state.logonType
 		  Case TYPE_OLS
 		    
@@ -538,7 +590,7 @@ Protected Module Battlenet
 		    
 		  Case TYPE_NLS_BETA, TYPE_NLS
 		    
-		    stderr.WriteLine("DEBUG: NLS")
+		    stderr.WriteLine("DEBUG: NLS resetPassword()")
 		    
 		  Case Else
 		    

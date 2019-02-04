@@ -8,6 +8,7 @@ Protected Class Configuration
 		  Me.bnetPort          = 6112
 		  Me.bnlsHost          = "bnls.bnetdocs.org"
 		  Me.bnlsPort          = 9367
+		  Me.createAccount     = 0
 		  Me.email             = ""
 		  Me.gameKey1          = ""
 		  Me.gameKey2          = ""
@@ -49,6 +50,10 @@ Protected Class Configuration
 
 	#tag Property, Flags = &h0
 		bnlsPort As UInt16
+	#tag EndProperty
+
+	#tag Property, Flags = &h0
+		createAccount As UInt8
 	#tag EndProperty
 
 	#tag Property, Flags = &h0
@@ -124,7 +129,22 @@ Protected Class Configuration
 	#tag EndProperty
 
 
+	#tag Constant, Name = CreateAccountOff, Type = Double, Dynamic = False, Default = \"0", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = CreateAccountOnCreateThenLogin, Type = Double, Dynamic = False, Default = \"2", Scope = Public
+	#tag EndConstant
+
+	#tag Constant, Name = CreateAccountOnLoginThenCreate, Type = Double, Dynamic = False, Default = \"1", Scope = Public
+	#tag EndConstant
+
+
 	#tag ViewBehavior
+		#tag ViewProperty
+			Name="autoRejoin"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
 		#tag ViewProperty
 			Name="bnetHost"
 			Group="Behavior"
@@ -182,6 +202,16 @@ Protected Class Configuration
 			Group="Behavior"
 			Type="String"
 			EditorType="MultiLineEditor"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="idleEnabled"
+			Group="Behavior"
+			Type="Boolean"
+		#tag EndViewProperty
+		#tag ViewProperty
+			Name="idleMessage"
+			Group="Behavior"
+			Type="String"
 		#tag EndViewProperty
 		#tag ViewProperty
 			Name="Index"
