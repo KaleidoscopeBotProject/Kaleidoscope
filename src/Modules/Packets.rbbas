@@ -379,7 +379,10 @@ Protected Module Packets
 		  client.socBNLS.Disconnect()
 		  
 		  Dim result As UInt32 = packetObject.UInt32Value(0)
-		  Dim value As String  = packetObject.CString(4)
+		  Dim value As String  = ""
+		  
+		  // PvPGN uses improper formatting.
+		  If packetObject.Size > 4 Then value = packetObject.CString(4)
 		  
 		  Const RESULT_SUCCESS               = &H000
 		  Const RESULT_OLD_VERSION           = &H100
