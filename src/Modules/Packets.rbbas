@@ -280,6 +280,9 @@ Protected Module Packets
 		    Case Packets.SID_CHATEVENT
 		      Packets.ReceiveBNET_SID_CHATEVENT(client, MidB(packetObject, 5))
 		      
+		    Case Packets.SID_FLOODDETECTED
+		      Packets.ReceiveBNET_SID_FLOODDETECTED(client, MidB(packetObject, 5))
+		      
 		    Case Packets.SID_PING
 		      Packets.ReceiveBNET_SID_PING(client, MidB(packetObject, 5))
 		      
@@ -492,6 +495,20 @@ Protected Module Packets
 		  End If
 		  
 		  stdout.WriteLine("BNET: Logged on as " + client.state.uniqueName + "!")
+		  
+		End Sub
+	#tag EndMethod
+
+	#tag Method, Flags = &h1
+		Protected Sub ReceiveBNET_SID_FLOODDETECTED(client As BNETClient, packetObject As MemoryBlock)
+		  
+		  #pragma Unused client
+		  
+		  If packetObject.Size <> 0 Then
+		    Raise New InvalidPacketException()
+		  End If
+		  
+		  stdout.WriteLine("BNET: Flood detected.")
 		  
 		End Sub
 	#tag EndMethod
@@ -829,6 +846,9 @@ Protected Module Packets
 	#tag EndConstant
 
 	#tag Constant, Name = SID_ENTERCHAT, Type = Double, Dynamic = False, Default = \"&H0A", Scope = Protected
+	#tag EndConstant
+
+	#tag Constant, Name = SID_FLOODDETECTED, Type = Double, Dynamic = False, Default = \"&H13", Scope = Protected
 	#tag EndConstant
 
 	#tag Constant, Name = SID_GETCHANNELLIST, Type = Double, Dynamic = False, Default = \"&H0B", Scope = Protected
