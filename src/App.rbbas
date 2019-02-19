@@ -480,7 +480,10 @@ Inherits ConsoleApplication
 		      Return 0
 		    End If
 		    
-		    Return mb.Long(0) // See sysinfo struct on Linux (glibc sys/sysinfo.h)
+		    // Uptime is represented as a signed 32-bit integer
+		    // See sysinfo struct on Linux (glibc sys/sysinfo.h)
+		    // <http://man7.org/linux/man-pages/man2/sysinfo.2.html>
+		    Return mb.Long(0)
 		    
 		  #Else
 		    
