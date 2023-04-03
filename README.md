@@ -1,7 +1,8 @@
 # Kaleidoscope
 ## Summary
-[**Kaleidoscope**](https://github.com/carlbennett/kaleidoscope) is a
-cross-platform classic Battle.net client daemon written in PHP.
+(Legacy &amp; Sunsetted)
+[**Kaleidoscope**](https://github.com/KaleidoscopeBotProject/Kaleidoscope) is a
+Classic Battle.net&trade; emulation bot program written in PHP.
 
 Kaleidoscope is in no way affiliated with or endorsed by Blizzard
 Entertainment&trade; or its brands, and is not intended to compete with
@@ -13,12 +14,13 @@ aforementioned trademarks are the property of their respective owners. Read the
 ### Download
 #### Development
 ```sh
-git clone git@github.com:carlbennett/kaleidoscope.git && cd ./kaleidoscope
+git clone git@github.com:KaleidoscopeBotProject/Kaleidoscope.git
+cd ./Kaleidoscope
 ```
 
 #### Stable
 You can download the latest release from
-[here](https://github.com/carlbennett/kaleidoscope/releases/latest).
+[here](https://github.com/KaleidoscopeBotProject/Kaleidoscope/releases/latest).
 
 Once downloaded, extract the files into a new directory, open your terminal,
 and switch to that directory.
